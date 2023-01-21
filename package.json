@@ -20,6 +20,10 @@
   },
   "homepage": "https://github.com/CallumRowston/CA-T3A2-B-travelers-forum-server#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.4"
   }
 }
