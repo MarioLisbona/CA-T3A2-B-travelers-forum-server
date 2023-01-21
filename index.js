@@ -1,6 +1,11 @@
-import express from 'express'
+import app from './app.js'
+// import http from 'http'
 
-const app = express()
-const port = 4001
+// const server = http.createServer(app)
 
-app.listen(port, () => console.log(`App running on http://localhost:${port}`))
+const { API_PORT } = process.env
+const port = process.env.PORT || API_PORT
+
+app.listen(port, () => {
+    console.log(`App running on http://localhost:${port}`)
+})
