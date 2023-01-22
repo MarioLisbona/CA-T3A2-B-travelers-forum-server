@@ -1,6 +1,7 @@
-import { PostModel } from '/models/post.js'
-import { CommentModel } from '/models/comment.js'
-import { MemberModel } from '/models/member.js'
+import { PostModel } from './models/post.js'
+import { CommentModel } from './models/comment.js'
+import { MemberModel } from './models/member.js'
+import { dbClose } from './db.js'
 
 await PostModel.deleteMany()
 console.log('Deleted all Posts')
@@ -26,5 +27,7 @@ const posts = [
     },
 ]
 
-const seed_posts = await PostModel.insertMany(posts)
-console.log('Inserted categories')
+await PostModel.insertMany(posts)
+console.log('Inserted posts')
+
+dbClose()
