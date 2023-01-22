@@ -1,37 +1,23 @@
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 
-const { MONGO_URI } = process.env
+dotenv.config()
+
 mongoose.set('strictQuery', true)
-
-// connect = () => {
-//   mongoose
-//     .connect(MONGO_URI, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//       useCreateIndex: true,
-//       useFindAndModify: false,
-//     })
-//     .then(() => {
-//       console.log("Connected to database")
-//     })
-//     .catch((error) => {
-//       console.log("Connection failed. Exiting...")
-//       console.error(error)
-//       process.exit(1)
-//     })
-// }
-
-try {
-    const connect = mongoose.connect(MONGO_URI)
-    console.log(connect.connection.readyState === 1 ? 'Mongoose connected to database' : 'Mongoose failed to connect to database')
-}
-catch (error) {
-    console.error(error)
-}
 
 async function dbClose() {
     await mongoose.connection.close()
     console.log("Database disconnected!")
-  }
+}
 
-export { dbClose }
+async function dbConnect () {
+    try {
+        const connect = await mongoose.connect(process.env.MONGO_URI)
+        console.log(connect.connection.readyState === 1 ? 'Mongoose connected to database' : 'Mongoose failed to connect to database')
+    }
+    catch (error) {
+        console.error(error)
+    }
+}
+
+export { dbConnect, dbClose }

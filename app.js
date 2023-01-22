@@ -1,20 +1,22 @@
 import express from 'express'
-import dotenv from 'dotenv'
 import cors from 'cors'
+import { PostModel } from './models/post.js'
+import { dbConnect } from './db.js'
 // Import models
-// require("db.js").connect()
+
+dbConnect()
 
 const app = express()
 
 app.use(cors())
 
-dotenv.config()
-
 app.use(express.json())
 
 // Blueprints here
 
-// Test route 
-app.get('/', (request, response) => response.send({ test_response: 'Test GET Request successful' }))
+// Test routes
+app.get('/', (req, res) => res.send({ test_response: 'Test GET Request successful' }))
+
+app.get('/posts', async (req, res) => res.send(await PostModel.find().populate()))
 
 export default app
