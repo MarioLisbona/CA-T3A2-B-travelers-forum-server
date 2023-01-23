@@ -61,4 +61,6 @@ const posts = [
 await PostModel.insertMany(posts)
 console.log('Inserted posts')
 
+
+
 dbClose()
