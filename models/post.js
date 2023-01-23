@@ -7,13 +7,14 @@ const postSchema = new mongoose.Schema({
         required: true 
     },
     author: { 
-        type: String, 
-        // ref: 'Member', 
-        // required: true 
+        type: mongoose.Schema.ObjectId,
+        ref: 'Member', 
+        required: true 
     },
     date_posted: { 
         type: Date, 
-        // required: true 
+        default: new Date().toJSON(),
+        required: true 
     },
     category: { 
         type: String, 

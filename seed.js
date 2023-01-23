@@ -333,49 +333,6 @@ const posts = [
 await PostModel.insertMany(posts)
 console.log('Inserted posts')
 
-const members = [
-    {
-    username: 'Callum',
-    email: 'callum123@gmail.com',
-    password: 'admin123',
-    joined_date: new Date().toJSON()
-    },
-    {
-    username: 'Mario',
-    email: 'mario123@gmail.com',
-    password: 'Admin123',
-    joined_date: new Date().toJSON()
-    },
-    {
-    username: 'TestMember',
-    email: 'testmember@gmail.com',
-    password: 'securepassword123',
-    joined_date: new Date().toJSON()
-    }
-]
 
-await MemberModel.insertMany(members)
-console.log('Inserted members')
-
-const comments = [
-    {
-    username: 'Callum',
-    email: 'callum123@gmail.com',
-    date: new Date().toJSON()
-    },
-    {
-    username: 'Mario',
-    email: 'mario123@gmail.com',
-    date: new Date().toJSON()
-    },
-    {
-    username: 'TestMember',
-    email: 'testmember@gmail.com',
-    date: new Date().toJSON()
-    }
-]
-
-await CommentModel.insertMany(comments)
-console.log('Inserted comments')
 
 dbClose()
