@@ -22,6 +22,7 @@ postRoutes.get('/:id', async (req, res) => {
     }
 })
 
+// Post new post
 postRoutes.post('/new', async (req, res) => {
     try {
         // 1. Create a new entry object with values passed in from the request
@@ -37,5 +38,7 @@ postRoutes.post('/new', async (req, res) => {
         res.status(500).send({ error: err.message })
     }
 })
+
+
 
 export default postRoutes
