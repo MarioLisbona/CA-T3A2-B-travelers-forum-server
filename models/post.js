@@ -7,9 +7,9 @@ const postSchema = new mongoose.Schema({
         required: true 
     },
     author: { 
-        type: mongoose.Schema.ObjectId,
+        type: mongoose.ObjectId,
         ref: 'Member', 
-        required: true 
+        // required: true 
     },
     date_posted: { 
         type: Date, 

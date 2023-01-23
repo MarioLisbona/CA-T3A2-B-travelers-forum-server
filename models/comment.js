@@ -5,12 +5,12 @@ const commentSchema = new mongoose.Schema({
     post: {
         type: mongoose.ObjectId, 
         ref: 'Post', 
-        required: true         
+        // required: true         
     },
     author: { 
         type: mongoose.ObjectId, 
         ref: 'Member', 
-        required: true 
+        // required: true 
     },
     date_posted: { 
         type: Date, 
