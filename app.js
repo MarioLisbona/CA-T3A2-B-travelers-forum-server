@@ -22,4 +22,6 @@ app.get('/posts', async (req, res) => res.send(await PostModel.find().populate({
 
 app.get('/members', async (req, res) => res.send(await MemberModel.find().populate()))
 
+app.get('/members', async (req, res) => res.send(await MemberModel.find().populate()))
+
 export default app
