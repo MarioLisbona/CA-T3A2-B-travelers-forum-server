@@ -1,7 +1,11 @@
 import express from 'express'
 import { PostModel } from '../models/post.js'
+import validator from 'validator'
+import { param, body, validationResult } from 'express-validator'
 
 const postRoutes = express.Router()
+
+const categories = ['Asia', 'Africa', 'North America', 'South America', 'Antarctica', 'Europe', 'Australia']
 
 // Get all posts
 postRoutes.get('/', async (req, res) => res.send(await PostModel.find().populate({path: 'author', select: 'username'})))
@@ -44,7 +48,11 @@ postRoutes.get('/:id', async (req, res) => {
 })
 
 // Get all posts by category
-postRoutes.get('/category/:category', async (req, res) => {
+postRoutes.get('/category/:category', param('category').isIn(categories), async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(400).send({ error: 'Not a valid category'})
+    }
     try {
         const post = await PostModel.find({ category: req.params.category }).sort({ date_posted: 'desc' }).populate({ path: 'author', select: 'username' })
             if (post) {
@@ -62,7 +70,6 @@ postRoutes.get('/category/:category', async (req, res) => {
 // Post new post
 postRoutes.post('/new', async (req, res) => {
     try {
-        // 1. Create a new entry object with values passed in from the request
         const { title, author, category, content  } = req.body
         const newPost = { title, author, category, content }
         const insertPost = await PostModel.create(newPost)
