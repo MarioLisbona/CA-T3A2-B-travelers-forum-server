@@ -22,6 +22,22 @@ postRoutes.get('/:id', async (req, res) => {
     }
 })
 
+// Get all posts by category
+postRoutes.get('/category/:category', async (req, res) => {
+    try {
+        const post = await PostModel.find({ category: req.params.category }).populate({ path: 'author', select: 'username' })
+            if (post) {
+                res.send(post)
+            } 
+            else {
+                res.status(404).send({ error: 'No posts found in that category' })
+            }
+    }
+    catch (err) {
+        res.status(500).send({ error: err.message })
+    }
+})
+
 // Post new post
 postRoutes.post('/new', async (req, res) => {
     try {
