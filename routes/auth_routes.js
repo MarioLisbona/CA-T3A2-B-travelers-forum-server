@@ -12,9 +12,12 @@ const authRoutes = express.Router()
 // Register User
 authRoutes.post(
     '/register', 
-    body('username').isLength({ min: 3, max: 24 }),
-    body('email').isEmail(),
-    body('password').isStrongPassword(),
+    body('username').isLength({ min: 3, max: 24 })
+    .withMessage('Username must be 3 - 24 characters '),
+    body('email').isEmail()
+    .withMessage('Not a valid email address'),
+    body('password').isStrongPassword()
+    .withMessage('Password must contain at least 8 characters, 1 lowercase, 1 uppercase, 1 number and 1 symbol'),
     async (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
@@ -24,7 +27,6 @@ authRoutes.post(
         // TODO Validate username and email are unique
         
         try {
-            // const encryptPassword = await bcrypt.hash(password, 10)
             const { username, email, password: plainTextPassword } = req.body
             const encryptPassword = await bcrypt.hash(plainTextPassword, 10)
             const newMember = await MemberModel.create({
