@@ -6,12 +6,12 @@ import mongoose from 'mongoose'
 
 dbConnect()
 
+await MemberModel.deleteMany()
+console.log('Deleted all members')
 await PostModel.deleteMany()
 console.log('Deleted all Posts')
 await CommentModel.deleteMany()
 console.log('Deleted all Comments')
-await MemberModel.deleteMany()
-console.log('Deleted all members')
 
 const members = [
     {
@@ -61,6 +61,42 @@ const members = [
 const seedMembers = await MemberModel.insertMany(members)
 console.log('Inserted members')
 
+const comments = [
+    {
+    author: seedMembers[0],
+    date_posted: new Date().toJSON(),
+    content: 'This is my first comment on a post!'
+    },
+    {
+    author: seedMembers[1],
+    date_posted: new Date().toJSON(),
+    content: 'And this is my first comment on a post!'
+    },
+    {
+    author: seedMembers[2],
+    date_posted: new Date().toJSON(),
+    content: 'Me three!'
+    },
+    {
+    author: seedMembers[0],
+    date_posted: new Date().toJSON(),
+    content: 'This is my second comment on the same post'
+    },
+    {
+    author: seedMembers[3],
+    date_posted: new Date().toJSON(),
+    content: 'Cool story!'
+    },
+    {
+    author: seedMembers[4],
+    date_posted: new Date().toJSON(),
+    content: 'Did you ride around on a moped?'
+    }
+]
+
+const seedComments = await CommentModel.insertMany(comments)
+console.log('Inserted comments')
+
 const posts = [
     // -------
     // Asia
@@ -70,14 +106,16 @@ const posts = [
     author: seedMembers[0]._id ,
     date_posted: new Date().toJSON() ,
     category: 'Asia' ,
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum' 
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+    comments: [seedComments[0]._id, seedComments[1]._id, seedComments[2]._id, seedComments[3]._id]
     },
     {
     title: 'I tried Pho from every city in Vietnam, and the best one was...' ,
     author: seedMembers[1]._id ,
     date_posted: new Date().toJSON() ,
     category: 'Asia' ,
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum' 
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum' ,
+    comments: [seedComments[4]._id, seedComments[5]._id]
     },
     {
     title: 'They built the Great Wall of China to keep me out... but it didn\'t work' ,
@@ -382,16 +420,10 @@ const posts = [
 const seedPosts = await PostModel.insertMany(posts)
 console.log('Inserted posts')
 
-// const comments = [
-//     {
-//     post: '63cddae816ae0ffdc6761b23',
-//     author: 'New Comment Guy',
-//     date_posted: new Date().toJSON(),
-//     content: 'This is my first comment on a post!'
-//     }
-// ]
 
-console.log(seedMembers)
-console.log(seedPosts)
+
+// console.log(seedMembers)
+// console.log(seedPosts)
+console.log(seedComments)
 
 dbClose()

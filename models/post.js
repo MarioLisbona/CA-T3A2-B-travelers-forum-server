@@ -24,10 +24,10 @@ const postSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    comments: { 
-        type: [mongoose.ObjectId], 
-        // ref: 'Comment' 
-    },
+    comments: [{ 
+        type: mongoose.ObjectId, 
+        ref: 'Comment',
+    }],
   })
 
 // Create a Mongoose model based on the schema
