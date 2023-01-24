@@ -1,6 +1,5 @@
 import express from 'express'
 import { PostModel } from '../models/post.js'
-import validator from 'validator'
 import { param, body, validationResult } from 'express-validator'
 
 const postRoutes = express.Router()
@@ -27,19 +26,18 @@ postRoutes.get('/latest', async (req, res) => {
 })
 
 // Get single post by id
-postRoutes.get('/:id', async (req, res) => {
+postRoutes.get('/:id', param('id').isLength(24), async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return res.status(400).send({ error: 'Id must be 24 characters long'})
+    }
     try {
-        if (req.params.id.length === 24) {
-            const post = await PostModel.findById(req.params.id).populate({ path: 'author', select: 'username' })
-            if (post) {
-                res.send(post)
-            } 
-            else {
-                res.status(404).send({ error: `Post not found with id: ${req.params.id}` })
-            }
-        }
+        const post = await PostModel.findById(req.params.id).populate({ path: 'author', select: 'username' })
+        if (post) {
+            res.send(post)
+        } 
         else {
-            res.status(500).send({ error: 'Not a valid id length' })
+            res.status(404).send({ error: `Post not found with id: ${req.params.id}` })
         }
     }
     catch (err) {
