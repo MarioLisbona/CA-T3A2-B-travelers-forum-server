@@ -9,7 +9,7 @@ const categories = ['Asia', 'Africa', 'North America', 'South America', 'Antarct
 
 // Get all posts
 postRoutes.get('/', async (req, res) => res.send(await PostModel.find()
-    .populate({path: 'author', select: 'username'})
+    .populate({ path: 'author', select: 'username' })
     .populate({ path: 'comments', populate: {
         path: 'author', select: 'username'
     }})
@@ -85,12 +85,38 @@ postRoutes.post('/new', async (req, res) => {
     }
 })
 
-// Delete post
-// JWT
-
-
 // Update post
 // JWT
+postRoutes.put('/:id', async (req, res) => {
+    const { title, category, content  } = req.body
+    const updatedPost = { title, category, content }
+    try {
+        const post = await PostModel.findByIdAndUpdate(req.params.id, updatedPost, { returnDocument: 'after' })
+        if (post) {
+            res.send(post)
+        } else {
+            res.status(404).send({ error: 'Post not found' })
+        }
+    }
+    catch (err) {
+        res.status(500).send({ error: err.message })
+    }
+})
 
+// Delete post
+// JWT
+postRoutes.delete('/:id', async (req, res) => {
+    try {
+        const post = await PostModel.findByIdAndDelete(req.params.id)
+        if (post) {
+            res.sendStatus(204)
+        } else {
+            res.status(404).send({ error: 'Post not found' })
+        }
+    }
+    catch (err) {
+        res.status(500).send({ error: err.message })
+    }
+})
 
 export default postRoutes
