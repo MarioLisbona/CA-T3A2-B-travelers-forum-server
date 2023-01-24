@@ -47,10 +47,45 @@ authRoutes.post(
         }
 })
 
+const jwtVerify = async (username, password) => {
+    try {
+        const member = await MemberModel.findOne({ username }).lean()
+        if (!member) {
+            return {status:'error', error:'Member not found'}
+        }
+        if (await bcrypt.compare(password, member.password)){
+            const token = jwt.sign({ id:member._id, username: member.username, type:'member'}, process.env.TOKEN_KEY, { expiresIn: '2h'})
+            return { status:'ok', data:token }
+        }
+        return { status:'error', error:'invalid password' }
+    } catch (err) {
+        console.log(err);
+        return {status:'error', error:'timed out'}
+    }
+}
 
-// const { username, email, password } = req.body
-// const newMember = { username, email, password }
-// const insertMember = await MemberModel.create(newMember)
-// res.status(201).send(await insertMember.populate({ path: 'author', select: 'username' }))
 // Log in Member
+// authRoutes.post(
+//     '/login',
+//     async (req, res) => {
+//         try {
+//         const { username, password } = req.body
+//         const response = await jwtVerify(username, password)
+//         if (response.status === 'ok') {
+//             const token = jwt.sign(
+//                 { user_id: newMember._id, email },
+//                 process.env.TOKEN_KEY,
+//                 {
+//                   expiresIn: "2h",
+//                 }
+//             user.token = token
+//             res.status(200).json(user);
+//             )
+//             }
+//         catch (err) {
+//             res.status(500).send({ error: err.message })
+//         }
+//     })
+
+
 export default authRoutes
