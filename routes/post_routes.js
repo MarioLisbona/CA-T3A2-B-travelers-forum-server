@@ -8,7 +8,12 @@ const postRoutes = express.Router()
 const categories = ['Asia', 'Africa', 'North America', 'South America', 'Antarctica', 'Europe', 'Australia']
 
 // Get all posts
-postRoutes.get('/', async (req, res) => res.send(await PostModel.find().populate({path: 'author', select: 'username'})))
+postRoutes.get('/', async (req, res) => res.send(await PostModel.find()
+    .populate({path: 'author', select: 'username'})
+    .populate({ path: 'comments', populate: {
+        path: 'author', select: 'username'
+    }})
+))
 
 // Get all posts sorted newest first
 postRoutes.get('/latest', async (req, res) => {
@@ -67,6 +72,7 @@ postRoutes.get('/category/:category', param('category').isIn(categories), async 
 })
 
 // Post new post
+// JWT
 postRoutes.post('/new', async (req, res) => {
     try {
         const { title, author, category, content  } = req.body
@@ -79,6 +85,12 @@ postRoutes.post('/new', async (req, res) => {
     }
 })
 
+// Delete post
+// JWT
+
+
+// Update post
+// JWT
 
 
 export default postRoutes
