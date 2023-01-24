@@ -27,12 +27,12 @@ authRoutes.post(
         // TODO Validate username and email are unique
         
         try {
-            const { username, email, password: plainTextPassword } = req.body
-            const encryptPassword = await bcrypt.hash(plainTextPassword, 10)
+            const { username, email, password } = req.body
+            // const encryptPassword = await bcrypt.hash(plainTextPassword, 10)
             const newMember = await MemberModel.create({
                 username,
-                email: email.toLowerCase(),
-                password: encryptPassword,
+                email,
+                password,
             })
             const token = jwt.sign(
                 { user_id: newMember._id, email },
