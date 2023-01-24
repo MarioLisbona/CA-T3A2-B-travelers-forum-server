@@ -1,5 +1,6 @@
 import express from 'express'
 import { PostModel } from '../models/post.js'
+import { CommentModel } from '../models/comment.js'
 import { param, body, validationResult } from 'express-validator'
 
 const postRoutes = express.Router()
@@ -25,14 +26,14 @@ postRoutes.get('/latest', async (req, res) => {
     }
 })
 
-// Get single post by id
+// Get single post by id and its comments
 postRoutes.get('/:id', param('id').isLength(24), async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(400).send({ error: 'Id must be 24 characters long'})
     }
     try {
-        const post = await PostModel.findById(req.params.id).populate({ path: 'author', select: 'username' })
+        const post = await PostModel.findById(req.params.id).populate({ path: 'author', select: 'username' }).populate({ path: 'comments' })
         if (post) {
             res.send(post)
         } 
