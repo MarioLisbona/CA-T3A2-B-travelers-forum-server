@@ -3,11 +3,17 @@ import { MemberModel } from '../models/member.js'
 import { body, validationResult } from 'express-validator'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 const authRoutes = express.Router()
+
+// Create JWT
+// expireIn: Days, hours, minutes, seconds
+const tokenAge = 1 * 24 * 60 * 60;
+const createToken = (id) => {
+    return jwt.sign({ id }, 'secret', {
+        expiresIn: tokenAge
+    })
+}
 
 // Register User
 authRoutes.post(
@@ -23,26 +29,17 @@ authRoutes.post(
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() })
         }
-
         // TODO Validate username and email are unique
-        
+        const { username, email, password } = req.body
         try {
-            const { username, email, password } = req.body
-            // const encryptPassword = await bcrypt.hash(plainTextPassword, 10)
             const newMember = await MemberModel.create({
                 username,
                 email,
-                password,
+                password
             })
-            const token = jwt.sign(
-                { user_id: newMember._id, email },
-                process.env.TOKEN_KEY,
-                {
-                  expiresIn: "2h",
-                }
-            )
-            newMember.token = token
-            res.status(201).json(newMember)
+            const token = createToken(newMember._id)
+            res.cookie('jwt', token, { httpOnly: true, tokenAge: tokenAge*1000} )
+            res.status(201).json({ newMember: newMember._id })
         }
         catch (err) {
             res.status(500).send({ error: err.message })
@@ -50,44 +47,32 @@ authRoutes.post(
 })
 
 const jwtVerify = async (username, password) => {
-    try {
-        const member = await MemberModel.findOne({ username }).lean()
-        if (!member) {
-            return {status:'error', error:'Member not found'}
+    const member = await MemberModel.findOne({ username })
+    if (member) {
+        const auth = await bcrypt.compare(password, member.password)
+        if (auth) {
+            return member
         }
-        if (await bcrypt.compare(password, member.password)){
-            const token = jwt.sign({ id:member._id, username: member.username, type:'member'}, process.env.TOKEN_KEY, { expiresIn: '2h'})
-            return { status:'ok', data:token }
-        }
-        return { status:'error', error:'invalid password' }
-    } catch (err) {
-        console.log(err);
-        return {status:'error', error:'timed out'}
+        throw Error('Password Incorrect')
     }
+    throw Error('Username Incorrect')
 }
 
 // Log in Member
-// authRoutes.post(
-//     '/login',
-//     async (req, res) => {
-//         try {
-//         const { username, password } = req.body
-//         const response = await jwtVerify(username, password)
-//         if (response.status === 'ok') {
-//             const token = jwt.sign(
-//                 { user_id: newMember._id, email },
-//                 process.env.TOKEN_KEY,
-//                 {
-//                   expiresIn: "2h",
-//                 }
-//             user.token = token
-//             res.status(200).json(user);
-//             )
-//             }
-//         catch (err) {
-//             res.status(500).send({ error: err.message })
-//         }
-//     })
-
+// TODO Validation
+authRoutes.post(
+    '/login',
+    async (req, res) => {
+        const { username, password } = req.body
+        try {
+            const loginMember = await jwtVerify(username, password)
+            const token = createToken(loginMember._id)
+            res.cookie('jwt', token, { httpOnly: true, tokenAge: tokenAge*1000 })
+            res.status(201).json({ member: loginMember._id, token: token });
+        }
+        catch (err) {
+            res.status(500).send({ error: err.message })
+        }
+})
 
 export default authRoutes
