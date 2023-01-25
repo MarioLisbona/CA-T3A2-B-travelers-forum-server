@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 
+
 dotenv.config()
 
 const authRoutes = express.Router()
@@ -23,8 +24,8 @@ authRoutes.post(
     '/register', 
     body('username').isLength({ min: 3, max: 24 })
     .withMessage('Username must be 3 - 24 characters '),
-    body('email').isEmail()
-    .withMessage('Not a valid email address'),
+    // body('email').isEmail()
+    // .withMessage('Not a valid email address'),
     body('password').isStrongPassword()
     .withMessage('Password must contain at least 8 characters, 1 lowercase, 1 uppercase, 1 number and 1 symbol'),
     async (req, res) => {
@@ -33,17 +34,17 @@ authRoutes.post(
             return res.status(400).json({ errors: errors.array() })
         }
         // TODO Validate username and email are unique
-        const { username, email, password } = req.body
+        const { username, password } = req.body
         try {
             const newMember = await MemberModel.create({
                 username,
-                email,
+                // email,
                 password
             })
             const token = jwt.sign(
-                { memberId: newMember._id, username: newMember.username},
+                { newMember },
                 process.env.JWT_SECRET,
-                { expiresIn: "24h"}
+                { expiresIn: "7d"}
             )
             // const token = createToken(newMember._id)
             // res.cookie('jwt', token, { httpOnly: true, tokenAge: tokenAge*1000} )
@@ -83,9 +84,9 @@ authRoutes.post(
         try {
             const loginMember = await jwtValidate(username, password)
             const token = jwt.sign(
-                { memberId: loginMember._id, username: loginMember.username},
+                { loginMember },
                 process.env.JWT_SECRET,
-                { expiresIn: "24h"}
+                { expiresIn: "7d"}
             )
             res.status(201).json({
                 success: true,
