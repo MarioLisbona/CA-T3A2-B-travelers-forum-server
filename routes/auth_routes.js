@@ -1,6 +1,5 @@
 import express from 'express'
 import { MemberModel } from '../models/member.js'
-import { body, validationResult } from 'express-validator'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
@@ -22,29 +21,28 @@ authRoutes.post("/register", async (req, res) => {
       if (memberExists) {
         return res.status(409).send({ error: "Member Already Exist. Please Login" })
       }
-  
       const encryptedPassword = await bcrypt.hash(password, 10)
-  
+
       const member = await MemberModel.create({
         username: username,
         password: encryptedPassword
       })
-  
+
       const token = jwt.sign(
-        { member },
+        { username: member.username, id: member._id },
         process.env.JWT_SECRET,
-        {
-          expiresIn: "7d",
-        }
+        { expiresIn: "7d" },
       )
       member.token = token
+
         res.status(201).send({ 
             id: member.id,
             username: member.username,
             token: member.token
         })
-    } catch (err) {
-      console.log(err)
+    } 
+    catch (err) {
+        console.log(err)
     }
   })
 
