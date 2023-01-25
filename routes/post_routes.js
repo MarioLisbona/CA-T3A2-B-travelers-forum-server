@@ -9,7 +9,7 @@ const postRoutes = express.Router()
 const categories = ['Asia', 'Africa', 'North America', 'South America', 'Antarctica', 'Europe', 'Australia']
 
 // Get all posts
-postRoutes.get('/', jwtVerify, async (req, res) => res.send(await PostModel.find()
+postRoutes.get('/', async (req, res) => res.send(await PostModel.find()
     .populate({ path: 'author', select: 'username' })
     .populate({ path: 'comments', populate: {
         path: 'author', select: 'username'
