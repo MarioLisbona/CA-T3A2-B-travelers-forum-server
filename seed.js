@@ -16,43 +16,36 @@ console.log('Deleted all Comments')
 const members = [
     {
     username: 'Callum',
-    email: 'callum123@gmail.com',
     password: 'admin123',
     joined_date: new Date().toJSON()
     },
     {
     username: 'Mario',
-    email: 'mario123@gmail.com',
     password: 'Admin123',
     joined_date: new Date().toJSON()
     },
     {
     username: 'Chuck Norris',
-    email: 'chucknorris@gmail.com',
     password: 'securepassword123',
     joined_date: new Date().toJSON()
     },
     {
     username: 'Jack Sparrow',
-    email: 'jacksparrow@gmail.com',
     password: 'securepassword123',
     joined_date: new Date().toJSON()
     },
     {
     username: 'Florence',
-    email: 'florence@gmail.com',
     password: 'securepassword123',
     joined_date: new Date().toJSON()
     },
     {
     username: 'BoB Ross',
-    email: 'bobross@gmail.com',
     password: 'securepassword123',
     joined_date: new Date().toJSON()
     },
     {
     username: 'TestMember',
-    email: 'testmember@gmail.com',
     password: 'securepassword123',
     joined_date: new Date().toJSON()
     }
@@ -420,10 +413,8 @@ const posts = [
 const seedPosts = await PostModel.insertMany(posts)
 console.log('Inserted posts')
 
-
-
-// console.log(seedMembers)
-// console.log(seedPosts)
+console.log(seedMembers)
+console.log(seedPosts)
 console.log(seedComments)
 
 dbClose()

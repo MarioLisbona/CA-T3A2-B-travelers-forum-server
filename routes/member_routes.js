@@ -4,12 +4,12 @@ import { MemberModel } from '../models/member.js'
 const memberRoutes = express.Router()
 
 // Get all members
-memberRoutes.get('/', async (req, res) => res.send(await MemberModel.find().select('username email joined_date')))
+memberRoutes.get('/', async (req, res) => res.send(await MemberModel.find().select('username joined_date')))
 
 // Get single member by id
 memberRoutes.get('/:id', async (req, res) => {
     try {
-        const member = await MemberModel.findById(req.params.id).select('username email joined_date')
+        const member = await MemberModel.findById(req.params.id).select('username joined_date')
         if (member) {
             res.send(member)
         } 
