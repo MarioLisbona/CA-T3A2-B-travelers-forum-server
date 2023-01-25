@@ -10,6 +10,7 @@ const categories = ['Asia', 'Africa', 'North America', 'South America', 'Antarct
 
 // Get all posts
 postRoutes.get('/', async (req, res) => res.send(await PostModel.find()
+    // Populate author and comments nested fields
     .populate({ path: 'author', select: 'username' })
     .populate({ path: 'comments', populate: {
         path: 'author', select: 'username'
@@ -74,7 +75,7 @@ postRoutes.get('/category/:category', param('category').isIn(categories), async 
 
 // Post new post
 // JWT
-postRoutes.post('/new', validateToken, async (req, res) => {
+postRoutes.post('/new', async (req, res) => {
     try {
         const { title, category, content  } = req.body
         const insertPost = await PostModel.create({ 
