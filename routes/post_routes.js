@@ -9,29 +9,13 @@ const postRoutes = express.Router()
 const categories = ['Asia', 'Africa', 'North America', 'South America', 'Antarctica', 'Europe', 'Australia']
 
 // Get all posts
-postRoutes.get('/', async (req, res) => res.send(await PostModel.find()
+postRoutes.get('/', async (req, res) => res.send(await PostModel.find().sort({ date_posted: 'asc' })
     // Populate author and comments nested fields
     .populate({ path: 'author', select: 'username' })
     .populate({ path: 'comments', populate: {
         path: 'author', select: 'username'
     }})
 ))
-
-// Get all posts sorted newest first
-postRoutes.get('/latest', async (req, res) => {
-    try {
-        const post = await PostModel.find().sort({ date_posted: 'desc' }).populate({path: 'author', select: 'username'})
-            if (post) {
-                res.send(post)
-            } 
-            else {
-                res.status(404).send({ error: 'No posts found' })
-            }
-    }
-    catch (err) {
-        res.status(500).send({ error: err.message })
-    }
-})
 
 // Get single post by id and its comments
 postRoutes.get('/:id', param('id').isLength(24), async (req, res) => {
