@@ -3,25 +3,29 @@ import { MemberModel } from '../models/member.js'
 import { body, validationResult } from 'express-validator'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
+
+
+dotenv.config()
 
 const authRoutes = express.Router()
 
 // Create JWT
 // expireIn: Days, hours, minutes, seconds
-const tokenAge = 1 * 24 * 60 * 60;
-const createToken = (id) => {
-    return jwt.sign({ id }, 'secret', {
-        expiresIn: tokenAge
-    })
-}
+// const tokenAge = 1 * 24 * 60 * 60;
+// const createToken = (id) => {
+//     return jwt.sign({ id }, 'secret', {
+//         expiresIn: tokenAge
+//     })
+// }
 
 // Register User
 authRoutes.post(
     '/register', 
     body('username').isLength({ min: 3, max: 24 })
     .withMessage('Username must be 3 - 24 characters '),
-    body('email').isEmail()
-    .withMessage('Not a valid email address'),
+    // body('email').isEmail()
+    // .withMessage('Not a valid email address'),
     body('password').isStrongPassword()
     .withMessage('Password must contain at least 8 characters, 1 lowercase, 1 uppercase, 1 number and 1 symbol'),
     async (req, res) => {
@@ -30,23 +34,36 @@ authRoutes.post(
             return res.status(400).json({ errors: errors.array() })
         }
         // TODO Validate username and email are unique
-        const { username, email, password } = req.body
+        const { username, password } = req.body
         try {
             const newMember = await MemberModel.create({
                 username,
-                email,
+                // email,
                 password
             })
-            const token = createToken(newMember._id)
-            res.cookie('jwt', token, { httpOnly: true, tokenAge: tokenAge*1000} )
-            res.status(201).json({ newMember: newMember._id })
+            const token = jwt.sign(
+                { newMember },
+                process.env.JWT_SECRET,
+                { expiresIn: "7d"}
+            )
+            // const token = createToken(newMember._id)
+            // res.cookie('jwt', token, { httpOnly: true, tokenAge: tokenAge*1000} )
+            // res.status(201).json({ newMember: newMember._id })
+            res.status(201).json({
+                success: true,
+                data: {
+                    memberId: newMember._id, 
+                    username: newMember.username,
+                    token: token
+                }
+            })
         }
         catch (err) {
             res.status(500).send({ error: err.message })
         }
 })
 
-const jwtVerify = async (username, password) => {
+const jwtValidate = async (username, password) => {
     const member = await MemberModel.findOne({ username })
     if (member) {
         const auth = await bcrypt.compare(password, member.password)
@@ -65,10 +82,22 @@ authRoutes.post(
     async (req, res) => {
         const { username, password } = req.body
         try {
-            const loginMember = await jwtVerify(username, password)
-            const token = createToken(loginMember._id)
-            res.cookie('jwt', token, { httpOnly: true, tokenAge: tokenAge*1000 })
-            res.status(201).json({ member: loginMember._id, token: token });
+            const loginMember = await jwtValidate(username, password)
+            const token = jwt.sign(
+                { loginMember },
+                process.env.JWT_SECRET,
+                { expiresIn: "7d"}
+            )
+            res.status(201).json({
+                success: true,
+                data: {
+                    memberId: loginMember._id, 
+                    username: loginMember.username,
+                    token: token
+                }
+            })
+            // res.cookie('jwt', token, { httpOnly: true, tokenAge: tokenAge*1000 })
+            // res.status(201).json({ member: loginMember._id, token: token });
         }
         catch (err) {
             res.status(500).send({ error: err.message })
