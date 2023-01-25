@@ -413,8 +413,8 @@ const posts = [
 const seedPosts = await PostModel.insertMany(posts)
 console.log('Inserted posts')
 
-console.log(seedMembers)
-console.log(seedPosts)
-console.log(seedComments)
+// console.log(seedMembers)
+// console.log(seedPosts)
+// console.log(seedComments)
 
 dbClose()
