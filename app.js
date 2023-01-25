@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import postRoutes from './routes/post_routes.js'
 import memberRoutes from './routes/member_routes.js'
-import authRoutes from './routes/auth_routes.js'
+import { authRoutes } from './routes/auth_routes.js'
 import { MemberModel } from './models/member.js'
 import { dbConnect } from './db.js'
 // Import models
