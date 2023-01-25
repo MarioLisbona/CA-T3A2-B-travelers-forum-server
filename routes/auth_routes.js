@@ -13,6 +13,8 @@ const createToken = (member) => {
         username: member.username,
         id: member._id
     }, process.env.JWT_SECRET)
+    console.log(member.username)
+    console.log(member._id)
     return accessToken
 }
 
@@ -28,6 +30,7 @@ const validateToken = (req, res, next) => {
             const validToken = jwt.verify(token, process.env.JWT_SECRET)
             if (validToken) {
                     req.authenticated = true
+                    req.id = validToken.id
                     return next()
             }
         }
@@ -39,30 +42,28 @@ const validateToken = (req, res, next) => {
 
 authRoutes.post("/register", async (req, res) => {
     try {
-      const { username, password } = req.body
- 
-      if (!(username && password)) {
-        res.status(400).send({ error: "Username and password required" })
-      }
-  
-      const memberExists = await MemberModel.findOne({ username })
-  
-      if (memberExists) {
-        return res.status(409).send({ error: "Member Already Exist. Please Login" })
-      }
-      const encryptedPassword = await bcrypt.hash(password, 10)
+        // destructure request body
+    const { username, password } = req.body
+        // Check that a username and password are in the request body
+        if (!(username && password)) {
+            res.status(400).send({ error: "Username and password required" })
+        }
+        // Check username against DB to see if it exists
+        const memberExists = await MemberModel.findOne({ username })
+        // If member exists, prompt login
+        if (memberExists) {
+            return res.status(403).send({ error: "Member Already Exist. Please Login" })
+        }
+        
+        const encryptedPassword = await bcrypt.hash(password, 10)
 
-      const member = await MemberModel.create({
-        username: username,
-        password: encryptedPassword
-      })
+        const member = await MemberModel.create({
+            username: username,
+            password: encryptedPassword
+        })
 
-      const accessToken = createToken(member)
+        const accessToken = createToken(member)
 
-        // res.header("authorization", accessToken, {
-        //     maxAge: 7 * 24 * 60 * 60 * 1000,
-        //     httpOnly: true,
-        // })
         res.status(201).send({ 
             id: member.id,
             username: member.username,
@@ -70,9 +71,9 @@ authRoutes.post("/register", async (req, res) => {
         })
     } 
     catch (err) {
-        console.log(err)
+    console.log(err)
     }
-  })
+})
 
   authRoutes.post("/login", async (req, res) => {
     try {
