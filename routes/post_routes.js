@@ -74,12 +74,12 @@ postRoutes.get('/category/:category', param('category').isIn(categories), async 
 
 // Post new post
 // JWT
-postRoutes.post('/new', async (req, res) => {
+postRoutes.post('/new', validateToken, async (req, res) => {
     try {
-        const { title, author, category, content  } = req.body
+        const { title, category, content  } = req.body
         const insertPost = await PostModel.create({ 
             title, 
-            author, 
+            author: req.id, 
             category, 
             content
         })
