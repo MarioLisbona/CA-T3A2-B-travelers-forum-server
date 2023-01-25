@@ -2,6 +2,7 @@ import express from 'express'
 import { PostModel } from '../models/post.js'
 import { CommentModel } from '../models/comment.js'
 import { param, body, validationResult } from 'express-validator'
+import { validateToken } from './auth_routes.js'
 
 const postRoutes = express.Router()
 
@@ -73,9 +74,9 @@ postRoutes.get('/category/:category', param('category').isIn(categories), async 
 
 // Post new post
 // JWT
-postRoutes.post('/new', async (req, res) => {
+postRoutes.post('/new', validateToken, async (req, res) => {
     try {
-        const { title, author, category, content  } = req.body
+        const { title, category, content  } = req.body
         const newPost = { title, author, category, content }
         const insertPost = await PostModel.create(newPost)
         res.status(201).send(await insertPost.populate({ path: 'author', select: 'username' }))

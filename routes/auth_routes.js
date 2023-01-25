@@ -12,9 +12,23 @@ const createToken = (member) => {
     const accessToken = jwt.sign({
         username: member.username,
         id: member._id
-    }, process.env.JWT_SECRET
-    )
+    }, process.env.JWT_SECRET)
     return accessToken
+}
+
+const validateToken = (req, res, next) => {
+    const accessToken = req.cookies["access-token"]
+    if (!accessToken)
+        return res.status(400).json({ error: "User not Authenticated!" })
+    try {
+        const validToken = jwt.verify(accessToken, process.env.JWT_SECRET)
+        if (validToken) {
+                req.authenticated = true
+                return next()
+    }
+    } catch (err) {
+        return res.status(400).send({ error: err })
+    }
 }
 
 authRoutes.post("/register", async (req, res) => {
@@ -39,6 +53,10 @@ authRoutes.post("/register", async (req, res) => {
 
       const accessToken = createToken(member)
 
+        res.cookie("access-token", accessToken, {
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+        })
         res.status(201).send({ 
             id: member.id,
             username: member.username,
@@ -162,4 +180,4 @@ authRoutes.post("/register", async (req, res) => {
 //         }
 // })
 
-export default authRoutes
+export { validateToken, authRoutes }
