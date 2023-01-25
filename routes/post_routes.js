@@ -2,7 +2,6 @@ import express from 'express'
 import { PostModel } from '../models/post.js'
 import { CommentModel } from '../models/comment.js'
 import { param, body, validationResult } from 'express-validator'
-import jwtVerify from '../middleware/auth.js'
 
 const postRoutes = express.Router()
 

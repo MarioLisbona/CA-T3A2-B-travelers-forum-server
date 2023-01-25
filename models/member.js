@@ -10,11 +10,6 @@ const memberSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    email: { 
-        type: String, 
-        // required: true,
-        unique: true 
-    },
     password: { 
         type: String, 
         required: true 
@@ -27,11 +22,11 @@ const memberSchema = new mongoose.Schema({
   })
 
 // Hash password using bcrypt before saving to the DB
-memberSchema.pre('save', async function (next) {
-    const salt = await bcrypt.genSalt()
-    this.password = await bcrypt.hash(this.password, salt)
-    next()
-})
+// memberSchema.pre('save', async function (next) {
+//     const salt = await bcrypt.genSalt()
+//     this.password = await bcrypt.hash(this.password, salt)
+//     next()
+// })
 
 
 // Create a Mongoose model based on the schema
