@@ -17,17 +17,23 @@ const createToken = (member) => {
 }
 
 const validateToken = (req, res, next) => {
-    const accessToken = req.cookies["access-token"]
-    if (!accessToken)
-        return res.status(400).json({ error: "User not Authenticated!" })
     try {
-        const validToken = jwt.verify(accessToken, process.env.JWT_SECRET)
-        if (validToken) {
-                req.authenticated = true
-                return next()
+        const accessToken = req.headers["authorization"]
+        if (typeof accessToken !== 'undefined') {
+            const bearer = accessToken.split(' ')
+            const token = bearer[1]
+            if (!token) {
+                return res.status(400).json({ error: "User not Authenticated!" })
+            }
+            const validToken = jwt.verify(token, process.env.JWT_SECRET)
+            if (validToken) {
+                    req.authenticated = true
+                    return next()
+            }
+        }
     }
-    } catch (err) {
-        return res.status(400).send({ error: err })
+    catch (err) {
+        res.status(400).send({ error: err.message })
     }
 }
 
@@ -53,10 +59,10 @@ authRoutes.post("/register", async (req, res) => {
 
       const accessToken = createToken(member)
 
-        res.cookie("access-token", accessToken, {
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-            httpOnly: true,
-        })
+        // res.header("authorization", accessToken, {
+        //     maxAge: 7 * 24 * 60 * 60 * 1000,
+        //     httpOnly: true,
+        // })
         res.status(201).send({ 
             id: member.id,
             username: member.username,
