@@ -8,6 +8,15 @@ dotenv.config()
 
 const authRoutes = express.Router()
 
+const createToken = (member) => {
+    const accessToken = jwt.sign({
+        username: member.username,
+        id: member._id
+    }, process.env.JWT_SECRET
+    )
+    return accessToken
+}
+
 authRoutes.post("/register", async (req, res) => {
     try {
       const { username, password } = req.body
@@ -28,17 +37,12 @@ authRoutes.post("/register", async (req, res) => {
         password: encryptedPassword
       })
 
-      const token = jwt.sign(
-        { username: member.username, id: member._id },
-        process.env.JWT_SECRET,
-        { expiresIn: "7d" },
-      )
-      member.token = token
+      const accessToken = createToken(member)
 
         res.status(201).send({ 
             id: member.id,
             username: member.username,
-            token: member.token
+            token: accessToken
         })
     } 
     catch (err) {
@@ -56,24 +60,16 @@ authRoutes.post("/register", async (req, res) => {
       const member = await MemberModel.findOne({ username })
   
       if (member && (await bcrypt.compare(password, member.password))) {
-        const token = jwt.sign(
-          { member },
-          process.env.JWT_SECRET,
-          {
-            expiresIn: "7d",
-          }
-        )
-
-        member.token = token
+        const accessToken = createToken(member)
 
         res.status(201).send({ 
             id: member.id,
             username: member.username,
-            token: member.token
+            token: accessToken
         })
       }
     } catch (err) {
-      console.log(err)
+        res.status(400).send({ error: err.message })
     }
   })
 
