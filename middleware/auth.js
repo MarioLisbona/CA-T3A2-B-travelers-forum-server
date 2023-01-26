@@ -1,28 +1,30 @@
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
-import crypto from 'crypto'
-import dotenv from 'dotenv'
+import express from 'express'
+import { body, validationResult } from 'express-validator'
+import { MemberModel } from '../models/member'
 
-dotenv.config()
+// function validateRequestSchema(req, res, next) {
+//     const errors = validationResult(req)
+//     if (!errors.isEmpty()) {
+//         return res.status(400).json({ errors: errors.array() })
+//     }
+// }
 
-// const jwtVerify = (req, res, next) => {
-//   const token = req.headers["authorization"]
-//   if (token) {
-//     const bearer = token.split(' ')
-//     const bearerToken = bearer[1]
-//     req.token = bearerToken
-//   }
-//   if (!token) {
-//     return res.status(403).json({ error: "Authentication token not found" })
-//   }
-// //   try {
-// //     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-// //     req.member = decoded
+// async function isValidMember(mongId) {
+//     const result = await this.findById(mongId)
+//     if (!result) {
+//         throw new Error('You are not a member')
+//     }
+// }
 
-// //   } catch (err) {
-// //     return res.status(401).json({ error: "Invalid Token" })
-// //   }
-//   return next();
-// };
+// async function validateUserExists(value) {
+//     body(value)
+//     .isMongoId()
+//     .custom(value => await MemberModel.findById(value))
+//     if (!value) {
+
+//     }
+// }
 
 
+
+export { validateRequestSchema }

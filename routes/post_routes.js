@@ -3,13 +3,15 @@ import { PostModel } from '../models/post.js'
 import { CommentModel } from '../models/comment.js'
 import { param, body, validationResult } from 'express-validator'
 import { validateToken } from './auth_routes.js'
+// import { validateRequestSchema } from '../middleware/auth.js'
 
 const postRoutes = express.Router()
 
 const categories = ['Asia', 'Africa', 'North America', 'South America', 'Antarctica', 'Europe', 'Australia']
 
 // Get all posts
-postRoutes.get('/', async (req, res) => res.send(await PostModel.find().sort({ date_posted: 'desc' })
+postRoutes.get('/', async (req, res) => res.send(
+    await PostModel.find().sort({ date_posted: 'desc' })
     // Populate author and comments nested fields
     .populate({ path: 'author', select: 'username' })
     .populate({ path: 'comments', populate: {
@@ -18,13 +20,13 @@ postRoutes.get('/', async (req, res) => res.send(await PostModel.find().sort({ d
 ))
 
 // Get single post by id and its comments
-postRoutes.get('/:id', param('id').isLength(24), async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-        return res.status(400).send({ error: 'Id must be 24 characters long'})
-    }
+postRoutes.get('/:id', async (req, res) => {
     try {
-        const post = await PostModel.findById(req.params.id).populate({ path: 'author', select: 'username' }).populate({ path: 'comments' })
+        const post = await PostModel.findById(req.params.id)
+        .populate({ path: 'author', select: 'username' })
+        .populate({ path: 'comments', populate: {
+        path: 'author', select: 'username'
+        }})
         if (post) {
             res.send(post)
         } 
@@ -59,7 +61,14 @@ postRoutes.get('/category/:category', param('category').isIn(categories), async 
 
 // Post new post
 // JWT
-postRoutes.post('/new', async (req, res) => {
+postRoutes.post(
+    '/new',
+    // body('title').isLength({ max: 50 }).withMessage('Max title length is 50 characters'),
+    // body('author').isMongoId().withMessage('Invalid member id'),
+    // body('category').isIn(categories).withMessage('Invalid category'),
+    // body('content').isLength({ max: 10000 }).withMessage('Max post length is 10000 characters'),
+    // validateRequestSchema,
+    async (req, res) => {
     try {
         const { title, author, category, content  } = req.body
         const insertPost = await PostModel.create({ 
