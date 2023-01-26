@@ -9,7 +9,7 @@ const postRoutes = express.Router()
 const categories = ['Asia', 'Africa', 'North America', 'South America', 'Antarctica', 'Europe', 'Australia']
 
 // Get all posts
-postRoutes.get('/', async (req, res) => res.send(await PostModel.find().sort({ date_posted: 'asc' })
+postRoutes.get('/', async (req, res) => res.send(await PostModel.find().sort({ date_posted: 'desc' })
     // Populate author and comments nested fields
     .populate({ path: 'author', select: 'username' })
     .populate({ path: 'comments', populate: {
@@ -61,10 +61,10 @@ postRoutes.get('/category/:category', param('category').isIn(categories), async 
 // JWT
 postRoutes.post('/new', async (req, res) => {
     try {
-        const { title, category, content  } = req.body
+        const { title, author, category, content  } = req.body
         const insertPost = await PostModel.create({ 
             title, 
-            author: req.id, 
+            author: req.id || author, 
             category, 
             content
         })
