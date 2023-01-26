@@ -8,7 +8,7 @@ const validateRequestSchema = function (req, res, next) {
     next()
 }
 
-const validatePostId = [
+const validateId = [
     param('id')
     .exists().withMessage('Id is required')
     .isMongoId().withMessage('Not a valid id')
@@ -32,4 +32,4 @@ const validatePost = [
     .isLength({ max: 10000 }).withMessage('Max post length is 10000 characters')
 ]
 
-export { validatePostId, validateCategory, validatePost, validateRequestSchema }
+export { validateId, validateCategory, validatePost, validateRequestSchema }

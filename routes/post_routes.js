@@ -1,5 +1,5 @@
 import express from 'express'
-import { validatePostId, validateCategory, validatePost, validateRequestSchema } from '../middleware/auth.js'
+import { validateId, validateCategory, validatePost, validateRequestSchema } from '../middleware/auth.js'
 import { getAllPosts, getPost, getCategory, createPost, updatePost, deletePost } from '../controllers/post_controller.js'
 
 const postRoutes = express.Router()
@@ -11,7 +11,7 @@ postRoutes.get('/',
 
 // Get single post by id
 postRoutes.get('/:id', 
-    validatePostId, 
+    validateId, 
     validateRequestSchema, 
     getPost
     )
@@ -28,12 +28,13 @@ postRoutes.get('/category/:category',
 postRoutes.post('/new', 
     validatePost, 
     validateRequestSchema, 
-    createPost)
+    createPost
+    )
 
 // Update post
 // Still needs JWT
 postRoutes.put('/:id', 
-    validatePostId, 
+    validateId, 
     validatePost,
     validateRequestSchema, 
     updatePost
@@ -42,7 +43,7 @@ postRoutes.put('/:id',
 // Delete post
 // Still needs JWT
 postRoutes.delete('/:id', 
-    validatePostId, 
+    validateId, 
     validateRequestSchema, 
     deletePost
     )
