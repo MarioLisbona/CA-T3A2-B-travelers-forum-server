@@ -3,7 +3,8 @@ import { PostModel } from '../models/post.js'
 import { CommentModel } from '../models/comment.js'
 import { param, body, validationResult } from 'express-validator'
 import { validateToken } from './auth_routes.js'
-// import { validateRequestSchema } from '../middleware/auth.js'
+import { validatePost, validateRequestSchema } from '../middleware/auth.js'
+import { createPost } from '../controllers/post_controller.js'
 
 const postRoutes = express.Router()
 
@@ -63,26 +64,20 @@ postRoutes.get('/category/:category', param('category').isIn(categories), async 
 // JWT
 postRoutes.post(
     '/new',
-    // body('title').isLength({ max: 50 }).withMessage('Max title length is 50 characters'),
-    // body('author').isMongoId().withMessage('Invalid member id'),
-    // body('category').isIn(categories).withMessage('Invalid category'),
-    // body('content').isLength({ max: 10000 }).withMessage('Max post length is 10000 characters'),
-    // validateRequestSchema,
-    async (req, res) => {
-    try {
-        const { title, author, category, content  } = req.body
-        const insertPost = await PostModel.create({ 
-            title, 
-            author: req.id || author, 
-            category, 
-            content
-        })
-        res.status(201).send(await insertPost.populate({ path: 'author', select: 'username' }))
-        }
-    catch (err) {
-        res.status(500).send({ error: err.message })
-    }
-})
+    validatePost,
+    validateRequestSchema,
+    createPost
+    // async (req, res) => {
+    //     const { title, author, category, content  } = req.body
+    //     const insertPost = await PostModel.create({ 
+    //         title, 
+    //         author: req.id || author, 
+    //         category, 
+    //         content
+    //     })
+    //     res.status(201).send(await insertPost.populate({ path: 'author', select: 'username' }))
+    // }
+)
 
 // Update post
 // JWT
