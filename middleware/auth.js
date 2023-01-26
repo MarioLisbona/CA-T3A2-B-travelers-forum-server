@@ -32,4 +32,10 @@ const validatePost = [
     .isLength({ max: 10000 }).withMessage('Max post length is 10000 characters')
 ]
 
-export { validateId, validateCategory, validatePost, validateRequestSchema }
+const validateComment = [
+    body('content')
+    .exists().withMessage('Content is required')
+    .isLength({ max: 1000 }).withMessage('Max post length is 1000 characters')
+]
+
+export { validateId, validateCategory, validatePost, validateComment, validateRequestSchema }
