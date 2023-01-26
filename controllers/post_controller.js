@@ -25,6 +25,9 @@ const getPost = async (req, res) => {
         if (post) {
             res.status(201).send(post)
         } 
+        else {
+            res.status(404).send({ error: `Post with id: ${req.params.id} does not exist` })
+        }
     } catch (err) {
         res.status(500).send({ error: err.message })
     }

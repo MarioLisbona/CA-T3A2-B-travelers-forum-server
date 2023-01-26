@@ -1,6 +1,4 @@
-import express from 'express'
-import { body, validationResult } from 'express-validator'
-// import { MemberModel } from '../models/member.js'
+import { param, body, validationResult } from 'express-validator'
 
 const validateRequestSchema = function (req, res, next) {
     const errors = validationResult(req)
@@ -10,43 +8,28 @@ const validateRequestSchema = function (req, res, next) {
     next()
 }
 
+const validatePostId = [
+    param('id')
+    .exists().withMessage('Id is required')
+    .isMongoId().withMessage('Not a valid id')
+] 
+
 const categories = ['Asia', 'Africa', 'North America', 'South America', 'Antarctica', 'Europe', 'Australia']
+
+const validateCategory = [
+    param('category')
+    .isIn(categories).withMessage('Invalid category')
+]
 
 const validatePost = [
     body('title')
     .exists().withMessage('Title is required')
-    .isLength({ max: 50 })
-    .withMessage('Max title length is 50 characters'),
-    body('author')
-    .exists().withMessage('Author is required')
-    .isMongoId()
-    .withMessage('Invalid member id'),
+    .isLength({ max: 50 }).withMessage('Max title length is 50 characters'),
     body('category')
-    .exists().withMessage('Category is required')
-    .isIn(categories)
-    .withMessage('Invalid category'),
+    .isIn(categories).withMessage('Invalid category'),
     body('content')
     .exists().withMessage('Content is required')
-    .isLength({ max: 10000 })
-    .withMessage('Max post length is 10000 characters')
+    .isLength({ max: 10000 }).withMessage('Max post length is 10000 characters')
 ]
 
-// async function isValidMember(mongId) {
-//     const result = await this.findById(mongId)
-//     if (!result) {
-//         throw new Error('You are not a member')
-//     }
-// }
-
-// async function validateUserExists(value) {
-//     body(value)
-//     .isMongoId()
-//     .custom(value => await MemberModel.findById(value))
-//     if (!value) {
-
-//     }
-// }
-
-
-
-export { validatePost, validateRequestSchema }
+export { validatePostId, validateCategory, validatePost, validateRequestSchema }
