@@ -4,7 +4,7 @@ import { validateComment, validateRequestSchema } from '../middleware/auth.js'
 
 const commentRoutes = express.Router()
 
-// Create comment
+// POST route for creating new Comment
 // Still need to add JWT
 commentRoutes.post('/new',
     validateComment,

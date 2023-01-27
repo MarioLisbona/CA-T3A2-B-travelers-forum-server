@@ -5,19 +5,26 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+// Create new Member in DB
 const registerMember = async (req, res) => {
     try {
-    const { username, password } = req.body
+        // Destructure request body to get username and password
+        const { username, password } = req.body
+        // Check if member exists with matching username, if so, return error message username taken
         const memberExists = await MemberModel.findOne({ username: username })
         if (memberExists) {
             return res.status(403).send({ error: "Username taken" })
         }
+        // Encrypt password using bcrypt 
         const encryptedPassword = await bcrypt.hash(password, 10)
+        // Create new member with username and encrypted password
         const member = await MemberModel.create({
             username: username,
             password: encryptedPassword
         })
+        // Grant new member JWT token
         const accessToken = createToken(member)
+        // Return member id, username and token
         return res.status(201).send({ 
             id: member.id,
             username: member.username,
@@ -28,20 +35,25 @@ const registerMember = async (req, res) => {
     }
 }
 
-// Route to login an already registered member
+// Login an already registered member
 const loginMember = async (req, res) => {
     try {
+        // Destructure request body to get username and password
         const { username, password } = req.body
+        // Check if member exists with matching username, if not, return error message member not found
         const member = await MemberModel.findOne({ username: username })
         if (!member) {
             return res.status(400).send({ error: `Member not found with username: ${username}` })
         }
+        // Compare password against hashed password in DB using bcrypt
         const checkPassword = await bcrypt.compare(password, member.password) 
+        // If password doesn't match, return error message incorrect credentials
         if (!checkPassword ) {
             return res.status(400).send({ error: 'Incorrect username or password' })
         }
+        // If password matches, creaete new JWT token
         const accessToken = createToken(member)
-        delete member.password
+        // Return member id, username and token
         return res.status(200).send({ 
             id: member._id,
             username: member.username,
@@ -54,7 +66,7 @@ const loginMember = async (req, res) => {
 
 // Create JWT token using env secret key
 const createToken = (member) => {
-    // Sign token using username and id so they can be accessed later
+    // Sign token using member  id so id can be accessed later
     const accessToken = jwt.sign({
         id: member._id
     }, process.env.JWT_SECRET)
