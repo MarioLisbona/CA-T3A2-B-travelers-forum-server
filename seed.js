@@ -48,16 +48,6 @@ const members = [
     username: 'TestMember',
     password: 'securepassword123',
     joined_date: new Date().toJSON()
-    },
-    {
-    username: 'CallumRowstan',
-    password: 'Callum12345!',
-    joined_date: new Date().toJSON()
-    },
-    {
-    username: 'MarioLisbona',
-    password: 'Muzza12345!',
-    joined_date: new Date().toJSON()
     }
 ]
 

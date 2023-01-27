@@ -60,8 +60,17 @@ const validateComment = [
 ]
 
 const validateUsernamePassword = [
-    body('username').exists().withMessage('Username Required'),
-    body('password').exists().withMessage('Password Required')
+    body('username')
+    .exists().withMessage('Username Required'),
+    body('password')
+    .exists().withMessage('Password Required')
 ]
 
-export { validateId, validateCategory, validatePost, validateComment, validateUsernamePassword, validateToken, validateRequestSchema }
+const validateStrongPassword = [
+    body('password')
+    .isStrongPassword().withMessage(
+        'Password must be atleast 8 characters; 1 uppercase, 1 lowercase, 1 number and 1 symbol'
+        )
+]
+
+export { validateId, validateCategory, validatePost, validateComment, validateUsernamePassword, validateStrongPassword, validateToken, validateRequestSchema }
