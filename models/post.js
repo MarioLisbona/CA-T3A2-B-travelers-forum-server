@@ -9,11 +9,11 @@ const postSchema = new mongoose.Schema({
     author: { 
         type: mongoose.ObjectId,
         ref: 'Member', 
-        // required: true
+        required: true
     },
     date_posted: { 
         type: Date, 
-        default: new Date().toJSON(),
+        default: Date.now(),
         required: true 
     },
     category: { 

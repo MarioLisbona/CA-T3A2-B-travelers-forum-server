@@ -115,7 +115,12 @@ const updatePost = async (req, res) => {
 // Delete an existing post from the DB
 const deletePost = async (req, res) => {
     try {
-        // If a post with id matching the param id is found, delte it
+        // const { author } = req.body
+        // const post = await findById(req.params.id)
+        // if (author === post.author._id) {
+        //   await PostModel.findByIdAndDelete(req.params.id)
+        // }
+        // If a post with id matching the param id is found, delete it
         const post = await PostModel.findByIdAndDelete(req.params.id)
         // Delete any Comments with id matching an id in the array of ids in the 
         // Post's comment field
