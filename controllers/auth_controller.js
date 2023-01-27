@@ -43,7 +43,7 @@ const loginMember = async (req, res) => {
         const accessToken = createToken(member)
         delete member.password
         return res.status(200).send({ 
-            member: member._id, 
+            id: member._id,
             username: member.username,
             token: accessToken
         })
