@@ -13,7 +13,7 @@ const getAllPosts = async (req, res) => {
                 path: 'author', select: 'username'
             }})
         // Return all the posts
-        return res.status(201).send(allPosts)
+        return res.status(200).send(allPosts)
     } catch (err) {
         return res.status(500).send({ error: err.message })
     }
