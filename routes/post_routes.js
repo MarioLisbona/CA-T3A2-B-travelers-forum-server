@@ -1,6 +1,7 @@
 import express from 'express'
-import { validateId, validateCategory, validatePost, validateRequestSchema } from '../middleware/auth.js'
+import { validateId, validateCategory, validatePost, validateToken, validateRequestSchema } from '../middleware/auth.js'
 import { getAllPosts, getPost, getCategory, createPost, updatePost, deletePost } from '../controllers/post_controller.js'
+import jwt from 'jsonwebtoken'
 
 const postRoutes = express.Router()
 
@@ -26,6 +27,7 @@ postRoutes.get('/category/:category',
 // Post new post
 // Still needs JWT
 postRoutes.post('/new', 
+    validateToken,
     validatePost, 
     validateRequestSchema, 
     createPost

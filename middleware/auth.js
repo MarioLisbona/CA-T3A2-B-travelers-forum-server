@@ -1,29 +1,20 @@
 import { param, body, validationResult } from 'express-validator'
+import jwt from 'jsonwebtoken'
 
 // Check JWT token is valid
 const validateToken = (req, res, next) => {
     try {
-        // Pass the token from the header to a variable
-        const accessToken = req.headers["authorization"]
-        // Check the header was not empty, if so, remove noise
-        if (typeof accessToken !== 'undefined') {
-            const bearer = accessToken.split(' ')
-            const token = bearer[1]
-        // Check the token exists after cleanup
-        if (!token) {
-            return res.status(400).json({ error: "User not Authenticated!" })
+        let accessToken = req.headers["authorization"]
+        if (!accessToken) {
+            return res.status(403).json({ error: "Access denied" })
         }
-        // Verify the token using env secret key
-        const validToken = jwt.verify(token, process.env.JWT_SECRET)
-        if (validToken) {
-                req.authenticated = true
-                // Pass the user id to request so it can be accessed later
-                req.id = validToken.id
-                return next()
-            }
+        if (accessToken.startsWith("Bearer ")) {
+            accessToken = accessToken.slice(7, accessToken.legth).trimLeft()
         }
-    }
-    catch (err) {
+        const validToken = jwt.verify(accessToken, process.env.JWT_SECRET)
+        req.member = validToken
+        next()
+    } catch (err) {
         res.status(400).send({ error: err.message })
     }
 }

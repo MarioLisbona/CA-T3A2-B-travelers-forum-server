@@ -63,6 +63,9 @@ const createPost = async (req, res) => {
             res.status(201).send(await insertPost
                 .populate({ path: 'author', select: 'username' }))
         }
+        else {
+            res.status(400).send({ error: 'Timed out' })
+        }
     } catch (err) {
         res.status(500).send({ error: err.message })
     }
