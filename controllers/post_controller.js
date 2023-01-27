@@ -52,10 +52,10 @@ const getCategory = async (req, res) => {
 
 const createPost = async (req, res) => {
     try {
-        const { title, category, content  } = req.body
+        const { title, author, category, content  } = req.body
         const insertPost = await PostModel.create({ 
             title, 
-            author: req.member.id, 
+            author: req.member.id || author,
             category, 
             content
         })

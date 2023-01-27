@@ -4,10 +4,10 @@ import { PostModel } from '../models/post.js'
 
 const createComment = async (req, res) => {
     try {
-        const { post, content  } = req.body
+        const { post, author, content  } = req.body
         const insertComment = await CommentModel.create({ 
             post: post,
-            author: req.member.id, 
+            author: req.member.id || author,
             content: content
         })
         await PostModel.findByIdAndUpdate(post, {"$push": {comments: insertComment._id}})
