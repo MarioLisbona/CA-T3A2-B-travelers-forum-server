@@ -8,9 +8,6 @@ dotenv.config()
 const registerMember = async (req, res) => {
     try {
     const { username, password } = req.body
-        if (!(username && password)) {
-            res.status(400).send({ error: "Username and password required" })
-        }
         const memberExists = await MemberModel.findOne({ username: username })
         if (memberExists) {
             return res.status(403).send({ error: "Username taken" })
@@ -21,14 +18,13 @@ const registerMember = async (req, res) => {
             password: encryptedPassword
         })
         const accessToken = createToken(member)
-        res.status(201).send({ 
+        return res.status(201).send({ 
             id: member.id,
             username: member.username,
             token: accessToken
         })
-    } 
-    catch (err) {
-        console.log(err)
+    } catch (err) {
+        return res.status(400).send({ error: err.message })
     }
 }
 
@@ -38,23 +34,21 @@ const loginMember = async (req, res) => {
         const { username, password } = req.body
         const member = await MemberModel.findOne({ username: username })
         if (!member) {
-            res.status(400).send({ error: 'User does not exist' })
+            return res.status(400).send({ error: `Member not found with username: ${username}` })
         }
         const checkPassword = await bcrypt.compare(password, member.password) 
         if (!checkPassword ) {
-            res.status(400).send({ error: 'Incorrect password' })
+            return res.status(400).send({ error: 'Incorrect username or password' })
         }
-        else {
         const accessToken = createToken(member)
         delete member.password
-        res.status(200).send({ 
+        return res.status(200).send({ 
             member: member._id, 
             username: member.username,
             token: accessToken
         })
-    }
     } catch (err) {
-    res.status(400).send({ error: err.message })
+        return res.status(400).send({ error: err.message })
     }
 }
 

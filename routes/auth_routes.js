@@ -1,11 +1,19 @@
 import express from 'express'
 import { registerMember, loginMember } from '../controllers/auth_controller.js'
-import { validateToken } from '../middleware/auth.js'
+import { validateUsernamePassword, validateRequestSchema } from '../middleware/auth.js'
 
 const authRoutes = express.Router()
 
-authRoutes.post("/register", registerMember)
+authRoutes.post("/register", 
+    validateUsernamePassword, 
+    validateRequestSchema, 
+    registerMember
+    )
 
-authRoutes.post("/login", loginMember)
+authRoutes.post("/login", 
+    validateUsernamePassword, 
+    validateRequestSchema, 
+    loginMember
+    )
 
-export { validateToken, authRoutes }
+export { authRoutes }

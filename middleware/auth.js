@@ -30,7 +30,7 @@ const validateRequestSchema = function (req, res, next) {
 const validateId = [
     param('id')
     .exists().withMessage('Id is required')
-    .isMongoId().withMessage('Not a valid id')
+    .isMongoId().withMessage('Invalid id')
 ] 
 
 const categories = ['Asia', 'Africa', 'North America', 'South America', 'Antarctica', 'Europe', 'Australia']
@@ -52,9 +52,16 @@ const validatePost = [
 ]
 
 const validateComment = [
+    body('post')
+    .isMongoId().withMessage('Invalid id'),
     body('content')
     .exists().withMessage('Content is required')
-    .isLength({ max: 1000 }).withMessage('Max post length is 1000 characters')
+    .isLength({ max: 1000 }).withMessage('Max comment length is 1000 characters')
 ]
 
-export { validateId, validateCategory, validatePost, validateComment, validateToken, validateRequestSchema }
+const validateUsernamePassword = [
+    body('username').exists().withMessage('Username Required'),
+    body('password').exists().withMessage('Password Required')
+]
+
+export { validateId, validateCategory, validatePost, validateComment, validateUsernamePassword, validateToken, validateRequestSchema }
