@@ -54,20 +54,20 @@ const createPost = async (req, res) => {
     try {
         const { title, author, category, content  } = req.body
         const insertPost = await PostModel.create({ 
-            title, 
-            author: req.member.id || author,
-            category, 
-            content
+            title: title, 
+            author: author || req.member.id,
+            category: category, 
+            content: content
         })
         if (insertPost) {
-            res.status(201).send(await insertPost
+            return res.status(201).send(await insertPost
                 .populate({ path: 'author', select: 'username' }))
         }
         else {
-            res.status(400).send({ error: 'Timed out' })
+            return res.status(400).send({ error: 'Timed out' })
         }
     } catch (err) {
-        res.status(500).send({ error: err.message })
+        return res.status(500).send({ error: err.message })
     }
 }
 

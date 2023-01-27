@@ -7,7 +7,7 @@ const createComment = async (req, res) => {
         const { post, author, content  } = req.body
         const insertComment = await CommentModel.create({ 
             post: post,
-            author: req.member.id || author,
+            author: author || req.member.id,
             content: content
         })
         await PostModel.findByIdAndUpdate(post, {"$push": {comments: insertComment._id}})
