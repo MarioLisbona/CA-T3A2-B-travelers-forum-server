@@ -22,6 +22,6 @@ app.use('/auth', authRoutes)
 app.use('/comments', commentRoutes)
 
 // Test routes
-app.get('/', (req, res) => res.send({ test_response: 'Test GET Request successful' }))
+app.get('/', (req, res) => res.status(200).send({ test_response: 'Test GET Request successful' }))
 
 export default app
