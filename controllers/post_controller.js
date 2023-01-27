@@ -1,3 +1,4 @@
+import { CommentModel } from "../models/comment.js"
 import { PostModel } from "../models/post.js"
 
 const getAllPosts = async (req, res) => {
@@ -77,8 +78,7 @@ const updatePost = async (req, res) => {
         const updatedPost = { title, category, content }
         const post = await PostModel
         .findByIdAndUpdate(req.params.id, updatedPost, 
-            { returnDocument: 'after' })
-            
+            { returnDocument: 'after' })      
         if (post) {
             res.status(201).send(await post
                 .populate({ path: 'author', select: 'username' }))
@@ -91,6 +91,7 @@ const updatePost = async (req, res) => {
 const deletePost = async (req, res) => {
     try {
         const post = await PostModel.findByIdAndDelete(req.params.id)
+        await CommentModel.deleteMany({_id: {$in: post.comments}});
         if (post) {
             res.sendStatus(204)
         }
