@@ -5,11 +5,13 @@ dotenv.config()
 
 mongoose.set('strictQuery', true)
 
+// Disconnect from Atlas database
 async function dbClose() {
     await mongoose.connection.close()
     console.log("Database disconnected!")
 }
 
+// Connect to Atlas database 
 async function dbConnect () {
     try {
         const connect = await mongoose.connect(process.env.MONGO_URI)

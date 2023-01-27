@@ -4,12 +4,12 @@ import { validateId, validateRequestSchema } from '../middleware/auth.js'
 
 const memberRoutes = express.Router()
 
-// Get all members
+// GET route to get all members
 memberRoutes.get('/', 
     getMembers
     )
 
-// Get single member by id
+// GET route to get one member with id
 memberRoutes.get('/:id', 
     validateId,
     validateRequestSchema,

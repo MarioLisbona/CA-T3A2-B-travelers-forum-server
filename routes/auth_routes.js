@@ -4,6 +4,7 @@ import { validateUsernamePassword, validateStrongPassword, validateRequestSchema
 
 const authRoutes = express.Router()
 
+// POST route for creating new member
 authRoutes.post("/register", 
     validateUsernamePassword, 
     validateStrongPassword,
@@ -11,10 +12,11 @@ authRoutes.post("/register",
     registerMember
     )
 
+// POST route for logging in Member
 authRoutes.post("/login", 
     validateUsernamePassword, 
     validateRequestSchema, 
     loginMember
     )
 
-export { authRoutes }
+export default authRoutes

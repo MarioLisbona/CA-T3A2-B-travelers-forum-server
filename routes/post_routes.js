@@ -5,26 +5,26 @@ import jwt from 'jsonwebtoken'
 
 const postRoutes = express.Router()
 
-// Get all posts
+// GET route to get all posts
 postRoutes.get('/', 
     getAllPosts
     )
 
-// Get single post by id
+// GET route to get one post with id
 postRoutes.get('/:id', 
     validateId, 
     validateRequestSchema, 
     getPost
     )
 
-// Get all posts in a category
+// GET route to get all posts in a category
 postRoutes.get('/category/:category', 
     validateCategory, 
     validateRequestSchema, 
     getCategory
     )
 
-// Post new post
+// POST route to create a new post
 // Still needs JWT
 postRoutes.post('/new', 
     validatePost, 
@@ -32,7 +32,7 @@ postRoutes.post('/new',
     createPost
     )
 
-// Update post
+// PUT route to edit a post
 // Still needs JWT
 postRoutes.put('/:id', 
     validateId, 
@@ -41,7 +41,7 @@ postRoutes.put('/:id',
     updatePost
     )
 
-// Delete post
+// DELETE route to remove a post
 // Still needs JWT
 postRoutes.delete('/:id', 
     validateId, 
