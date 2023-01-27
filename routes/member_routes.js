@@ -1,6 +1,6 @@
 import express from 'express'
 import { getMember, getMembers } from '../controllers/member_controller.js'
-import { validateId, validateRequestSchema } from '../middleware/auth.js'
+import { validateId, validateRequestSchema } from '../middleware/validation_middleware.js'
 
 const memberRoutes = express.Router()
 

@@ -1,6 +1,6 @@
 import express from 'express'
 import { registerMember, loginMember } from '../controllers/auth_controller.js'
-import { validateUsernamePassword, validateStrongPassword, validateRequestSchema } from '../middleware/auth.js'
+import { validateUsernamePassword, validateStrongPassword, validateRequestSchema } from '../middleware/validation_middleware.js'
 
 const authRoutes = express.Router()
 

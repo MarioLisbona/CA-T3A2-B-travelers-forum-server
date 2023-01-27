@@ -1,6 +1,6 @@
 import express from 'express'
 import { createComment } from '../controllers/comment_controller.js'
-import { validateComment, validateRequestSchema } from '../middleware/auth.js'
+import { validateComment, validateRequestSchema } from '../middleware/validation_middleware.js'
 
 const commentRoutes = express.Router()
 
