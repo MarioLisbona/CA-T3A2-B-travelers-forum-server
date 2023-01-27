@@ -96,7 +96,7 @@ const posts = [
     {
     title: 'India by Train - They do things differently!' ,
     author: seedMembers[0]._id ,
-    date_posted: Date.now() ,
+    date_posted: Date.now(),
     category: 'Asia' ,
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
     comments: [seedComments[0]._id, seedComments[1]._id, seedComments[2]._id, seedComments[3]._id]

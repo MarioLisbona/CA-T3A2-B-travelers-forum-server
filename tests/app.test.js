@@ -21,4 +21,13 @@ describe("/posts functionality", () => {
         // expect(res.body).toBeDefined()
         // expect(res.body.test_response).toBe('Test GET Request successful')
     })
+
+    test('Get one post', async () => {
+        const res = await request(app).get('/posts/:id')
+        expect(res.status).toBe(200)
+        expect(res.headers['content-type']).toMatch(/json/i)
+        // expect(res.body).toBeDefined()
+        // expect(res.body.test_response).toBe('Test GET Request successful')
+    })
+
 })

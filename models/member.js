@@ -13,7 +13,7 @@ const memberSchema = new mongoose.Schema({
     },
     joined_date: { 
         type: Date, 
-        default: Date.now(),
+        default: Date.now,
         required: true 
     }
   })

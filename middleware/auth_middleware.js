@@ -24,4 +24,4 @@ const validateToken = (req, res, next) => {
     }
 }
 
-export { validateId, validateCategory, validatePost, validateComment, validateUsernamePassword, validateStrongPassword, validateToken, validateRequestSchema }
+export { validateToken }
