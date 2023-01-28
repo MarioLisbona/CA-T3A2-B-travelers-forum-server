@@ -81,10 +81,8 @@ const createPost = async (req, res) => {
             content: content
         })
         // If a post is successfully created, return it and populate the author field with username
-        // if (insertPost) {
             return res.status(201).send(await insertPost
                 .populate({ path: 'author', select: 'username' }))
-        // }
     } catch (err) {
         return res.status(500).send({ error: err.message })
     }

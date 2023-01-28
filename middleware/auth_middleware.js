@@ -7,7 +7,7 @@ const validateToken = (req, res, next) => {
         let accessToken = req.headers["authorization"]
         // If no access token exists in the header, return error message access denied
         if (!accessToken || accessToken === 'Bearer undefined') {
-            return res.status(403).json({ error: "Access denied" })
+            return res.status(403).json({ error: "Access denied. No token found" })
         }
         // Trim any noise from the bearer token so it is readaable
         if (accessToken.startsWith("Bearer ")) {
