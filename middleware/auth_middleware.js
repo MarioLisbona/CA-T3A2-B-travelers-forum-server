@@ -6,7 +6,7 @@ const validateToken = (req, res, next) => {
         // Set the JWT token in the authorization header to acessToken variable
         let accessToken = req.headers["authorization"]
         // If no access token exists in the header, return error message access denied
-        if (!accessToken || accessToken === 'Bearer ') {
+        if (!accessToken || accessToken === 'Bearer undefined') {
             return res.status(403).json({ error: "Access denied" })
         }
         // Trim any noise from the bearer token so it is readaable
