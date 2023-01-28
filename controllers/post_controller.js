@@ -101,12 +101,18 @@ const updatePost = async (req, res) => {
         // fields in the updatedPost object
         const post = await PostModel
         .findByIdAndUpdate(req.params.id, updatedPost, 
-            { returnDocument: 'after' })      
+            { returnDocument: 'after' })
+            .populate({ path: 'author', select: 'username' })
+            .populate({ path: 'comments', populate: {
+                path: 'author', select: 'username'}}) 
+        return res.status(200).send(post)
         // If a most with the id was found and updated, then return the updated document
-        if (post) {
-            res.status(201).send(await post
-                .populate({ path: 'author', select: 'username' }))
-        }
+        // if (post) {
+        //     res.status(201).send(await PostModel.findById(post._id)
+        //         .populate({ path: 'author', select: 'username' }))
+        //         .populate({ path: 'comments', populate: {
+        //             path: 'author', select: 'username'}})
+        // }
     } catch (err) {
         res.status(500).send({ error: err.message })
     }
