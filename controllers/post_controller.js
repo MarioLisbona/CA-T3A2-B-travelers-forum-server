@@ -72,11 +72,11 @@ const getCategory = async (req, res) => {
 const createPost = async (req, res) => {
     try {
         // Destructure request body to get title, author, category and content
-        const { title, author, category, content  } = req.body
+        const { title, category, content  } = req.body
         // Create new Post with title, author, category and content
         const insertPost = await PostModel.create({ 
             title: title, 
-            author: author || req.member.id,
+            author: req.member.id,
             category: category, 
             content: content
         })
