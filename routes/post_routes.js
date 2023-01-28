@@ -36,6 +36,7 @@ postRoutes.post('/new',
 // PUT route to edit a post
 // Still needs JWT
 postRoutes.put('/:id', 
+    validateToken,
     validateId, 
     validatePost,
     validateRequestSchema, 
@@ -45,6 +46,7 @@ postRoutes.put('/:id',
 // DELETE route to remove a post
 // Still needs JWT
 postRoutes.delete('/:id', 
+    validateToken,
     validateId, 
     validateRequestSchema, 
     deletePost
