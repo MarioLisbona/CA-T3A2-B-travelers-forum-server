@@ -7,7 +7,7 @@ const getMembers = async (req, res) => {
         const allMembers = await MemberModel
             .find().select('username joined_date')
         // Return all members
-        return res.status(201).send(allMembers)
+        return res.status(200).send(allMembers)
     } catch (err) {
         return res.status(500).send({ error: err.message })
     }
@@ -20,11 +20,11 @@ const getMember = async (req, res) => {
         const member = await MemberModel
         .findById(req.params.id).select('username joined_date')
         if (member) {
-            return res.status(201).send(member)
+            return res.status(200).send(member)
         } 
         // If no member with id found, return error message member not found
         else {
-            return res.status(404).send({ error: 'Member not found' })
+            return res.status(404).send({ error: `Member with id: ${req.params.id} not found` })
         }
     }
     catch (err) {

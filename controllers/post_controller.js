@@ -36,7 +36,7 @@ const getPost = async (req, res) => {
         } 
         // If no post with that id is found, return error message post not found
         else {
-            return res.status(404).send({ error: `Post with id: ${req.params.id} does not exist` })
+            return res.status(404).send({ error: `Post with id: ${req.params.id} not found` })
         }
     } catch (err) {
        return  res.status(500).send({ error: err.message })
@@ -57,11 +57,11 @@ const getCategory = async (req, res) => {
             }})
         // If any posts are found, return them
         if (posts) {
-            res.status(201).send(posts)
+            res.status(200).send(posts)
         } 
         // If no posts in that category are found, return error message posts in category not found
         else {
-            return res.status(404).send({ error: `Not posts in category: ${req.params.category} exist` })
+            return res.status(404).send({ error: `Posts in category: ${req.params.category} not found` })
         }
     } catch (err) {
         res.status(500).send({ error: err.message })
@@ -81,10 +81,10 @@ const createPost = async (req, res) => {
             content: content
         })
         // If a post is successfully created, return it and populate the author field with username
-        if (insertPost) {
+        // if (insertPost) {
             return res.status(201).send(await insertPost
                 .populate({ path: 'author', select: 'username' }))
-        }
+        // }
     } catch (err) {
         return res.status(500).send({ error: err.message })
     }
@@ -114,11 +114,6 @@ const updatePost = async (req, res) => {
 // Delete an existing post from the DB
 const deletePost = async (req, res) => {
     try {
-        // const { author } = req.body
-        // const post = await findById(req.params.id)
-        // if (author === post.author._id) {
-        //   await PostModel.findByIdAndDelete(req.params.id)
-        // }
         // If a post with id matching the param id is found, delete it
         const post = await PostModel.findByIdAndDelete(req.params.id)
         // Delete any Comments with id matching an id in the array of ids in the 
