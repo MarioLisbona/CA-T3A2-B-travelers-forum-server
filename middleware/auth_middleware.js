@@ -26,23 +26,20 @@ const validateToken = (req, res, next) => {
     }
 }
 
-// const validatePostAuthor = async (req, res, next) => {
-//     const findAuthor = await PostModel.findById(req.params.id)
-//     console.log(findAuthor._id)
-//     if (findAuthor._id != req.member.id) {
-//         return res.status(403).send({ error: 'Access Denied. You are not the owner of this post'})
-//     }
-//     next()
-// }
+const validatePostAuthor = async (req, res, next) => {
+    const post = await PostModel.findById(req.params.id)
+    if (post.author._id != req.member.id) {
+        return res.status(403).send({ error: 'Access Denied. You are not the owner of this post'})
+    }
+    next()
+}
 
-// const validateCommentAuthor = async (req, res, next) => {
-//     const findAuthor = await CommentModel.findById(req.params.id)
-//     if (findAuthor._id != req.member.id) {
-//         return res.status(403).send({ error: 'Access Denied. You are not the owner of this comment'})
-//     }
-//     next()
-// }
+const validateCommentAuthor = async (req, res, next) => {
+    const findAuthor = await CommentModel.findById(req.params.id)
+    if (findAuthor._id != req.member.id) {
+        return res.status(403).send({ error: 'Access Denied. You are not the owner of this comment'})
+    }
+    next()
+}
 
-
-
-export { validateToken }
+export { validateToken, validatePostAuthor, validateCommentAuthor }
