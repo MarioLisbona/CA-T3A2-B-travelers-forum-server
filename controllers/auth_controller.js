@@ -13,7 +13,7 @@ const registerMember = async (req, res) => {
         // Check if member exists with matching username, if so, return error message username taken
         const memberExists = await MemberModel.findOne({ username: username })
         if (memberExists) {
-            return res.status(403).send({ error: "Username taken" })
+            return res.status(409).send({ error: "Username taken" })
         }
         // Encrypt password using bcrypt 
         const encryptedPassword = await bcrypt.hash(password, 10)
@@ -31,7 +31,7 @@ const registerMember = async (req, res) => {
             token: accessToken
         })
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(500).send({ error: err.message })
     }
 }
 
@@ -43,13 +43,13 @@ const loginMember = async (req, res) => {
         // Check if member exists with matching username, if not, return error message member not found
         const member = await MemberModel.findOne({ username: username })
         if (!member) {
-            return res.status(400).send({ error: `Member not found with username: ${username}` })
+            return res.status(404).send({ error: `Member not found with username: ${username}` })
         }
         // Compare password against hashed password in DB using bcrypt
         const checkPassword = await bcrypt.compare(password, member.password) 
         // If password doesn't match, return error message incorrect credentials
         if (!checkPassword ) {
-            return res.status(400).send({ error: 'Incorrect username or password' })
+            return res.status(403).send({ error: 'Incorrect username or password' })
         }
         // If password matches, creaete new JWT token
         const accessToken = createToken(member)
@@ -60,7 +60,7 @@ const loginMember = async (req, res) => {
             token: accessToken
         })
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(500).send({ error: err.message })
     }
 }
 
@@ -69,7 +69,8 @@ const createToken = (member) => {
     // Sign token using member  id so id can be accessed later
     const accessToken = jwt.sign({
         id: member._id
-    }, process.env.JWT_SECRET)
+    }, process.env.JWT_SECRET, 
+    {expiresIn: '1d'})
     return accessToken
 }
 
