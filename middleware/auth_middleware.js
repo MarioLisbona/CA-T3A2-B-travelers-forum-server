@@ -35,8 +35,8 @@ const validatePostAuthor = async (req, res, next) => {
 }
 
 const validateCommentAuthor = async (req, res, next) => {
-    const findAuthor = await CommentModel.findById(req.params.id)
-    if (findAuthor._id != req.member.id) {
+    const comment = await CommentModel.findById(req.params.id)
+    if (comment.author._id != req.member.id) {
         return res.status(403).send({ error: 'Access Denied. You are not the owner of this comment'})
     }
     next()
