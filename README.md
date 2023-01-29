@@ -77,6 +77,35 @@ To be filled in when JWT working
 To be filled in when JWT working
 ```
 
+#### /comments/:id
+
+- Request Verb: PUT
+- Function: Updates an existing Comment document in the database
+- Required Arguments: id (Mongo Object Id reference for Comment)
+- Authentication: JWT
+- Authorization: N/A
+- Example Request:
+
+```json
+To be filled in when JWT working
+```
+
+- Example Response:
+
+```json
+To be filled in when JWT working
+```
+
+#### /comments/:id
+
+- Request Verb: DELETE
+- Function: Deletes an existing Comment document from the database
+- Required Arguments: id (Mongo Object Id reference for Comment)
+- Authentication: JWT
+- Authorization: N/A
+- Example Request: N/A
+- Example Response: N/A
+
 ### Member Routes
 
 #### /members/
@@ -314,14 +343,5 @@ To be filled in when JWT working
 - Required Arguments: id (Mongo Object Id reference for Post)
 - Authentication: JWT
 - Authorization: N/A
-- Example Request:
-
-```json
-To be filled in when JWT working
-```
-
-- Example Response:
-
-```json
-To be filled in when JWT working
-```
+- Example Request: N/A
+- Example Response: N/A
