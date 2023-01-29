@@ -26,8 +26,15 @@ const createComment = async (req, res) => {
 // Update an existing post in the DB
 const updateComment = async (req, res) => {
     try {
+        
         // Destructure request body to get title, category and content
         const { content  } = req.body
+
+        // Check member id from token matches author id
+        // if (req.member.id != author) {
+        //     return res.status(403).json({ error: "Access denied." })
+        // }
+
         // Create an object with title category and content
         const updatedComment = { content }
         // Find a Post matching the id param then update its fields matching the
@@ -44,15 +51,14 @@ const updateComment = async (req, res) => {
 }
 
 // Delete an existing post from the DB
-const deletePost = async (req, res) => {
+const deleteComment = async (req, res) => {
     try {
         // If a post with id matching the param id is found, delete it
-        const post = await PostModel.findByIdAndDelete(req.params.id)
+        const comment = await CommentModel.findByIdAndDelete(req.params.id)
         // Delete any Comments with id matching an id in the array of ids in the 
         // Post's comment field
-        await CommentModel.deleteMany({_id: {$in: post.comments}})
         // If the post was deleted, sent 204 status as success
-        if (post) {
+        if (comment) {
             res.sendStatus(204)
         }
     }
@@ -61,4 +67,4 @@ const deletePost = async (req, res) => {
     }
 }
 
-export { createComment, updateComment }
+export { createComment, updateComment, deleteComment }
