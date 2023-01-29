@@ -69,7 +69,8 @@ const createToken = (member) => {
     // Sign token using member  id so id can be accessed later
     const accessToken = jwt.sign({
         id: member._id
-    }, process.env.JWT_SECRET)
+    }, process.env.JWT_SECRET, 
+    {expiresIn: '1d'})
     return accessToken
 }
 
