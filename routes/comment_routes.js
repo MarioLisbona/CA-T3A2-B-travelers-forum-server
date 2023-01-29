@@ -1,5 +1,5 @@
 import express from 'express'
-import { createComment } from '../controllers/comment_controller.js'
+import { createComment, updateComment } from '../controllers/comment_controller.js'
 import { validateComment, validateRequestSchema } from '../middleware/validation_middleware.js'
 // import { validateToken } from '../middleware/auth_middleware.js'
 
@@ -12,6 +12,11 @@ commentRoutes.post('/new',
     validateComment,
     validateRequestSchema,
     createComment
+    )
+
+commentRoutes.put('/:id',
+    // validateToken,
+    updateComment
     )
 
 export default commentRoutes
