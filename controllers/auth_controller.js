@@ -40,16 +40,16 @@ const loginMember = async (req, res) => {
     try {
         // Destructure request body to get username and password
         const { username, password } = req.body
-        // Check if member exists with matching username, if not, return error message member not found
+        // Check if member exists with matching username in db
         const member = await MemberModel.findOne({ username: username })
         if (!member) {
-            return res.status(404).send({ error: `Member not found with username: ${username}` })
+            return res.status(401).send({ error: 'Incorrect username or password' })
         }
         // Compare password against hashed password in DB using bcrypt
         const checkPassword = await bcrypt.compare(password, member.password) 
-        // If password doesn't match, return error message incorrect credentials
+        // If member doesnt exist or password doesn't match, return error message incorrect credentials
         if (!checkPassword ) {
-            return res.status(403).send({ error: 'Incorrect username or password' })
+            return res.status(401).send({ error: 'Incorrect username or password' })
         }
         // If password matches, creaete new JWT token
         const accessToken = createToken(member)
