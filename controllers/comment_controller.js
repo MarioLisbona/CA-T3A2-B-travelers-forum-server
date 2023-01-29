@@ -26,15 +26,8 @@ const createComment = async (req, res) => {
 // Update an existing post in the DB
 const updateComment = async (req, res) => {
     try {
-        
         // Destructure request body to get title, category and content
         const { content  } = req.body
-
-        // Check member id from token matches author id
-        // if (req.member.id != author) {
-        //     return res.status(403).json({ error: "Access denied." })
-        // }
-
         // Create an object with title category and content
         const updatedComment = { content }
         // Find a Post matching the id param then update its fields matching the
@@ -42,9 +35,10 @@ const updateComment = async (req, res) => {
         const comment = await CommentModel
         .findByIdAndUpdate(req.params.id, updatedComment, 
             { returnDocument: 'after' })
-            // .populate({ path: 'author', select: 'username' })
+            .populate({ path: 'author', select: 'username' })
             // .populate({ path: 'post', select: '_id'}) 
         return res.status(200).send(comment)
+            
     } catch (err) {
         res.status(500).send({ error: err.message })
     }

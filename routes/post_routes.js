@@ -1,7 +1,7 @@
 import express from 'express'
 import { validateId, validateCategory, validatePost, validateRequestSchema } from '../middleware/validation_middleware.js'
 import { getAllPosts, getPost, getCategory, createPost, updatePost, deletePost } from '../controllers/post_controller.js'
-// import { validateToken } from '../middleware/auth_middleware.js'
+// import { validateToken, validatePostAuthor } from '../middleware/auth_middleware.js'
 
 const postRoutes = express.Router()
 
@@ -47,6 +47,7 @@ postRoutes.put('/:id',
 // Still needs JWT
 postRoutes.delete('/:id', 
     // validateToken,
+    // validatePostAuthor,
     validateId, 
     validateRequestSchema, 
     deletePost
