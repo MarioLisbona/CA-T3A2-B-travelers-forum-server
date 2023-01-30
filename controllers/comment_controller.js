@@ -5,11 +5,11 @@ import { PostModel } from '../models/post.js'
 const createComment = async (req, res) => {
     try {
         // Destructure request body to get post, author and content
-        const { post, author, content  } = req.body
+        const { post, content  } = req.body
         // Create new comment with post, author and content
         const insertComment = await CommentModel.create({ 
             post: post,
-            author: author || req.member.id,
+            author: req.member.id,
             content: content
         })
         // Insert the new comment's Mongoose Object id into comments array of related Post
