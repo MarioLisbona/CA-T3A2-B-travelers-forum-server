@@ -76,7 +76,7 @@ const createPost = async (req, res) => {
         // Create new Post with title, author, category and content
         const insertPost = await PostModel.create({ 
             title: title, 
-            author: author || req.member.id,
+            author: req.member.id,
             category: category, 
             content: content
         })
