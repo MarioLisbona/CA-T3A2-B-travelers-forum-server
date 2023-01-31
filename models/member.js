@@ -1,9 +1,5 @@
 import mongoose from 'mongoose'
 
-// Converting date to Sydney
-const utcTime = new Date()
-const sydTime = utcTime.setUTCHours(11)
-
 // Create a Mongoose schema to define the structure of a model
 const memberSchema = new mongoose.Schema({
     username: { 

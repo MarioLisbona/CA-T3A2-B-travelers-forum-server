@@ -76,7 +76,6 @@ const comments = [
 const seedComments = await CommentModel.insertMany(comments)
 console.log('Inserted comments')
 
-
 const posts = [
     // -------
     // Asia
