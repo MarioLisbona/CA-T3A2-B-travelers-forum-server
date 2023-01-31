@@ -1,5 +1,10 @@
 import mongoose from 'mongoose'
 
+// Converting date to Sydney
+const utcTime = new Date()
+const sydTime = utcTime.setUTCHours(11)
+
+
 // Create a Mongoose schema to define the structure of a model
 const postSchema = new mongoose.Schema({
     title: { 
@@ -13,7 +18,7 @@ const postSchema = new mongoose.Schema({
     },
     date_posted: { 
         type: Date, 
-        default: Date.now,
+        default: sydTime,
         required: true 
     },
     category: { 
