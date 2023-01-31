@@ -1,10 +1,45 @@
 # CA-T3A2-B-travelers-forum-server
 
+## Table of Contents
+
+- [Libraries](#api-endpoints)
+- [API Endpoint Documentation](#api-endpoints)
+
+## Libraries
+
+- #### [MongooseJS](https://mongoosejs.com/)
+
+An object data modelling (ODM) library for use with MongoDB. Used to build schema and models that enforce structure at the application layer.
+
+- #### [ExpressJS](https://expressjs.com/)
+
+A Node JS based minimal back end web framework for building REST APIs. Used to build routes to handle HTTP requests.
+
+- #### [Dotenv](https://www.npmjs.com/package/dotenv)
+
+Used to load variables stored in `.env` files into `process.env`. Allows for environment configuration to be kept separate from the code and protect database credentials and JWT secret key.
+
+- #### [cors](https://www.npmjs.com/package/cors)
+
+Provides middleware to ExpressJS to enable cross origin requests that are normally forbidden.
+
+- #### [express-validator](https://express-validator.github.io/docs)
+
+Set of ExpressJS middlewares that provides validation and sanitizer functions. Used to validate data in incoming requests.
+
+- #### [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+
+An open standard for sharing security information between client and server. Used for user authentication by issuing a JWT to the client upon successful login by digitally signing information using a secret key and cryptographic algorithm. This is validated by the server when the user attempts to access protected routes.
+
+- #### [bcrypt](https://www.npmjs.com/package/cors)
+
+A password hashing function used for securely storing passwords in the database.
+
 ## API Endpoints
 
-### Auth Routes
+### Auth
 
-#### /auth/reigster/
+**/auth/reigster/**
 
 - Request Verb: POST
 - Function: Creates a new Member document in the database
@@ -30,7 +65,7 @@
 }
 ```
 
-#### /auth/login/
+**/auth/login/**
 
 - Request Verb: POST
 - Function: Takes an existing Member's credentials and returns a bearer token if credentials match against those in the database
@@ -58,7 +93,7 @@
 
 ### Comment Routes
 
-#### /comments/new/
+**/comments/new/**
 
 - Request Verb: POST
 - Function: Creates a new Comment document in the database
@@ -68,16 +103,29 @@
 - Example Request:
 
 ```json
-To be filled in when JWT working
+{
+    "post": "63d862a0fcebb9c399900e01",
+    "content": "Test comment"
+}
 ```
 
 - Example Response:
 
 ```json
-To be filled in when JWT working
+{
+    "post": "63d862a0fcebb9c399900e01",
+    "author": {
+        "_id": "63d8aee005c5dff71adb3642",
+        "username": "NewTestUser3"
+    },
+    "content": "Test comment",
+    "_id": "63d8b019c78b2300c30d9dd9",
+    "date_posted": "2023-01-31T06:07:21.291Z",
+    "__v": 0
+}
 ```
 
-#### /comments/:id
+**/comments/:id/**
 
 - Request Verb: PUT
 - Function: Updates an existing Comment document in the database
@@ -87,16 +135,28 @@ To be filled in when JWT working
 - Example Request:
 
 ```json
-To be filled in when JWT working
+{
+    "content": "changing comment"
+}
 ```
 
 - Example Response:
 
 ```json
-To be filled in when JWT working
+{
+    "_id": "63d8b019c78b2300c30d9dd9",
+    "post": "63d862a0fcebb9c399900e01",
+    "author": {
+        "_id": "63d8aee005c5dff71adb3642",
+        "username": "NewTestUser3"
+    },
+    "content": "changing comment",
+    "date_posted": "2023-01-31T06:07:21.291Z",
+    "__v": 0
+}
 ```
 
-#### /comments/:id
+**/comments/:id/**
 
 - Request Verb: DELETE
 - Function: Deletes an existing Comment document from the database
@@ -108,7 +168,7 @@ To be filled in when JWT working
 
 ### Member Routes
 
-#### /members/
+**/members/**
 
 - Request Verb: GET
 - Function: Retrieves all Members from the database
@@ -133,7 +193,7 @@ To be filled in when JWT working
 ]
 ```
 
-#### /members/:id
+**/members/:id/**
 
 - Request Verb: GET
 - Function: Retrieves a single Member from the database
@@ -153,7 +213,7 @@ To be filled in when JWT working
 
 ### Post Routes
 
-#### /posts/
+**/posts/**
 
 - Request Verb: GET
 - Function: Retrieves all Posts from the database
@@ -219,7 +279,7 @@ To be filled in when JWT working
 ]
 ```
 
-#### /posts/:id
+**/posts/:id/**
 
 - Request Verb: GET
 - Function: Retrieves a single Post from the database
@@ -245,7 +305,7 @@ To be filled in when JWT working
 }
 ```
 
-#### /posts/category/:category
+**/posts/category/:category/**
 
 - Request Verb: GET
 - Function: Retrieves all Posts from the database with the matching category
@@ -298,7 +358,7 @@ To be filled in when JWT working
 ]
 ```
 
-#### /posts/new
+**/posts/new/**
 
 - Request Verb: POST
 - Function: Creates a new Post document in the database
@@ -308,16 +368,32 @@ To be filled in when JWT working
 - Example Request:
 
 ```json
-To be filled in when JWT working
+{
+    "title": "Making a new post",
+    "category": "Asia",
+    "content": "A new post with some cool new content"
+}
 ```
 
 - Example Response:
 
 ```json
-To be filled in when JWT working
+{
+    "title": "Making a new post",
+    "author": {
+        "_id": "63d8aee005c5dff71adb3642",
+        "username": "NewTestUser3"
+    },
+    "category": "Asia",
+    "content": "A new post with some cool new content",
+    "comments": [],
+    "_id": "63d8b0fec78b2300c30d9de0",
+    "date_posted": "2023-01-31T06:11:10.461Z",
+    "__v": 0
+}
 ```
 
-#### /posts/:id
+**/posts/:id/**
 
 - Request Verb: PUT
 - Function: Updates an existing Post document in the database
@@ -327,16 +403,32 @@ To be filled in when JWT working
 - Example Request:
 
 ```json
-To be filled in when JWT working
+{
+    "title": "Editing a post",
+    "category": "South America",
+    "content": "Editing post with some cool new content and changing the category"
+}
 ```
 
 - Example Response:
 
 ```json
-To be filled in when JWT working
+{
+    "_id": "63d8b0fec78b2300c30d9de0",
+    "title": "Editing a post",
+    "author": {
+        "_id": "63d8aee005c5dff71adb3642",
+        "username": "NewTestUser3"
+    },
+    "category": "South America",
+    "content": "Editing post with some cool new content and changing the category",
+    "comments": [],
+    "date_posted": "2023-01-31T06:11:10.461Z",
+    "__v": 0
+}
 ```
 
-#### /posts/:id
+**/posts/:id/**
 
 - Request Verb: DELETE
 - Function: Deletes an existing Post document from the database
@@ -344,4 +436,4 @@ To be filled in when JWT working
 - Authentication: JWT
 - Authorization: N/A
 - Example Request: N/A
-- Example Response: N/A
+- Example Response: 204 No Conetent status code upon successful deletion
