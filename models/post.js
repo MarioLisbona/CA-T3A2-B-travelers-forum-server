@@ -18,7 +18,7 @@ const postSchema = new mongoose.Schema({
     },
     date_posted: { 
         type: Date, 
-        default: sydTime,
+        default: Date.now,
         required: true 
     },
     category: { 

@@ -17,7 +17,7 @@ const memberSchema = new mongoose.Schema({
     },
     joined_date: { 
         type: Date, 
-        default: sydTime,
+        default: Date.now,
         required: true 
     }
   })
