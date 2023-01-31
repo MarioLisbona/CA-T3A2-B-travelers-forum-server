@@ -4,7 +4,7 @@ import { param, body, validationResult } from 'express-validator'
 const validateRequestSchema = function (req, res, next) {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() })
+        return res.status(400).send({ errors: errors.array() })
     }
     next()
 }
