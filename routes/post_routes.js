@@ -25,7 +25,6 @@ postRoutes.get('/category/:category',
     )
 
 // POST route to create a new post
-// Still needs JWT
 postRoutes.post('/new', 
     validateToken,
     validateMemberExists,
@@ -35,7 +34,6 @@ postRoutes.post('/new',
     )
 
 // PUT route to edit a post
-// Still needs JWT
 postRoutes.put('/:id', 
     validateToken,
     validatePostAuthor,
@@ -46,7 +44,6 @@ postRoutes.put('/:id',
     )
 
 // DELETE route to remove a post
-// Still needs JWT
 postRoutes.delete('/:id', 
     validateToken,
     validatePostAuthor,

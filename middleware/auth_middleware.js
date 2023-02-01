@@ -42,6 +42,8 @@ const validateMemberExists = async (req, res, next) => {
     next()
 }
 
+// Checking that the member id decrypted form the JWT matches the author id of the 
+// post passed through in params - Checks the authenticated user accessing the route is the owner
 const validatePostAuthor = async (req, res, next) => {
     const post = await PostModel.findById(req.params.id)
     if (post.author._id != req.member.id) {
@@ -50,6 +52,8 @@ const validatePostAuthor = async (req, res, next) => {
     next()
 }
 
+// Checking that the member id decrypted form the JWT matches the author id of the 
+// comment of the post passed through in params - Checks the authenticated user accessing the route is the owner
 const validateCommentAuthor = async (req, res, next) => {
     const comment = await CommentModel.findById(req.params.id)
     if (comment.author._id != req.member.id) {

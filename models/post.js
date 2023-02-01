@@ -30,7 +30,7 @@ const postSchema = new mongoose.Schema({
     }],
   })
 
-// Create a Mongoose model based on the schema
+// Create a Mongoose model based on the schema to be used by express
 const PostModel = mongoose.model('Post', postSchema)
 
 export { PostModel }

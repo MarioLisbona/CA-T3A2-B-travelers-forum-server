@@ -18,7 +18,7 @@ const memberSchema = new mongoose.Schema({
     }
   })
 
-// Create a Mongoose model based on the schema
+// Create a Mongoose model based on the schema to be used by express
 const MemberModel = mongoose.model('Member', memberSchema)
 
 export { MemberModel }
