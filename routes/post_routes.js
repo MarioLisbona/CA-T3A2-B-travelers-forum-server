@@ -1,7 +1,7 @@
 import express from 'express'
 import { validateId, validateCategory, validatePost, validateRequestSchema } from '../middleware/validation_middleware.js'
 import { getAllPosts, getPost, getCategory, createPost, updatePost, deletePost } from '../controllers/post_controller.js'
-import { validateToken, validatePostAuthor } from '../middleware/auth_middleware.js'
+import { validateToken, validateMemberExists, validatePostAuthor } from '../middleware/auth_middleware.js'
 
 const postRoutes = express.Router()
 
@@ -25,16 +25,15 @@ postRoutes.get('/category/:category',
     )
 
 // POST route to create a new post
-// Still needs JWT
 postRoutes.post('/new', 
     validateToken,
+    validateMemberExists,
     validatePost, 
     validateRequestSchema, 
     createPost
     )
 
 // PUT route to edit a post
-// Still needs JWT
 postRoutes.put('/:id', 
     validateToken,
     validatePostAuthor,
@@ -45,7 +44,6 @@ postRoutes.put('/:id',
     )
 
 // DELETE route to remove a post
-// Still needs JWT
 postRoutes.delete('/:id', 
     validateToken,
     validatePostAuthor,

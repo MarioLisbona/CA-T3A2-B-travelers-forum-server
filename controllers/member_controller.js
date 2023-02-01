@@ -1,11 +1,14 @@
 import { MemberModel } from '../models/member.js'
 
+// Member Routes used for testing purposes
+
 // Retrieve all Members from DB
 const getMembers = async (req, res) => {
     try {
         // Find all members and exclude password field
         const allMembers = await MemberModel
             .find().select('username joined_date')
+
         // Return all members
         return res.status(200).send(allMembers)
     } catch (err) {
@@ -22,6 +25,7 @@ const getMember = async (req, res) => {
         if (member) {
             return res.status(200).send(member)
         } 
+
         // If no member with id found, return error message member not found
         else {
             return res.status(404).send({ error: `Member with id: ${req.params.id} not found` })

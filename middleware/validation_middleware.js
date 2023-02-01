@@ -1,4 +1,5 @@
 import { param, body, validationResult } from 'express-validator'
+import { PostModel } from '../models/post.js'
 
 // Collects any errors from previous middleware and returns it if it exists
 const validateRequestSchema = function (req, res, next) {
@@ -37,15 +38,6 @@ const validatePost = [
     .isLength({ max: 10000 }).withMessage('Max post length is 10000 characters')
 ]
 
-// Checks Comment has valid post reference and content fields
-const validateComment = [
-    body('post')
-    .isMongoId().withMessage('Invalid id'),
-    body('content')
-    .exists().withMessage('Content is required')
-    .isLength({ max: 1000 }).withMessage('Max comment length is 1000 characters')
-]
-
 // Checks Username and Password fields are passed for registration and login
 const validateUsernamePassword = [
     body('username')
@@ -63,4 +55,21 @@ const validateStrongPassword = [
         )
 ]
 
-export { validateId, validateCategory, validatePost, validateComment, validateUsernamePassword, validateStrongPassword, validateRequestSchema }
+// Checks comment body for Mongo ID and existence of content under 1000 characters
+// Also checks the post id exists in the DB. Without this, passing in a valid Mongo ID but
+// one that doesn't exist in the DB will result in a comment created belonging to no post
+const validateComment = async (req, res, next) => {
+    body('post')
+    .isMongoId().withMessage('Invalid id'),
+    body('content')
+    .exists().withMessage('Content is required')
+    .isLength({ min: 1, max: 1000 }).withMessage('Max comment length is 1000 characters')
+
+    const postExists = await PostModel.findById(req.body.post)
+    if (!postExists) {
+        return res.status(404).send({ error: `Post with id: ${req.body.post} not found` })
+    }
+    next()
+}
+
+export { validateId, validateCategory, validatePost,  validateUsernamePassword, validateStrongPassword, validateComment, validateRequestSchema }
