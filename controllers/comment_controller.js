@@ -6,6 +6,12 @@ const createComment = async (req, res) => {
     try {
         // Destructure request body to get post, author and content
         const { post, content  } = req.body
+
+        // Checks the post id exists in the DB. Prevents the creation of comments using a 
+        // const postExists = await PostModel.findById(post)
+        // if (!postExists) {
+        //     return res.status(404).send({ error: `Post with id: ${post} not found` })
+        // }
         // Create new comment with post, author and content
         const insertComment = await CommentModel.create({ 
             post: post,
