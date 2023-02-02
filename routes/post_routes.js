@@ -1,5 +1,5 @@
 import express from 'express'
-import { validateId, validateCategory, validatePost, validateRequestSchema } from '../middleware/validation_middleware.js'
+import { validateId, validateCategory, validatePostBody, validateRequestSchema } from '../middleware/validation_middleware.js'
 import { getAllPosts, getPost, getCategory, createPost, updatePost, deletePost } from '../controllers/post_controller.js'
 import { validateToken, validateMemberExists, validatePostAuthor } from '../middleware/auth_middleware.js'
 
@@ -28,7 +28,7 @@ postRoutes.get('/category/:category',
 postRoutes.post('/new', 
     validateToken,
     validateMemberExists,
-    validatePost, 
+    validatePostBody, 
     validateRequestSchema, 
     createPost
     )
@@ -38,7 +38,7 @@ postRoutes.put('/:id',
     validateToken,
     validatePostAuthor,
     validateId, 
-    validatePost,
+    validatePostBody,
     validateRequestSchema, 
     updatePost
     )
