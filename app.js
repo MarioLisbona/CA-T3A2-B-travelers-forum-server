@@ -15,13 +15,13 @@ app.use(cors())
 
 app.use(express.json())
 
-// Blueprints here
+// Routes
 app.use('/posts', postRoutes)
 app.use('/members', memberRoutes)
 app.use('/auth', authRoutes)
 app.use('/comments', commentRoutes)
 
-// Test routes
+// Home Test Route
 app.get('/', (req, res) => res.status(200).send({ test_response: 'Test GET Request successful' }))
 
 export default app
