@@ -56,7 +56,7 @@ const deleteComment = async (req, res) => {
 
         // If the post was deleted, sent 204 status as success
         if (comment) {
-            res.sendStatus(204)
+            res.status(204).send({message: 'Comment deleted successfully'})
         }
     }
     catch (err) {
