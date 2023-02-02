@@ -119,7 +119,7 @@ const deletePost = async (req, res) => {
         await CommentModel.deleteMany({_id: {$in: post.comments}})
         // If the post was deleted, sent 204 status as success
         if (post) {
-            res.sendStatus(204)
+            res.status(204).send({message: 'Post deleted successfully'})
         }
     }
     catch (err) {
