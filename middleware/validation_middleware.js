@@ -64,6 +64,12 @@ const validateCommentBody = [
     .isLength({ min: 1, max: 1000 }).withMessage('Max comment length is 1000 characters, Min 1 character')
 ]
 
+const validateCommentEdit = [
+    body('content')
+    .exists().withMessage('Content is required')
+    .isLength({ min: 1, max: 1000 }).withMessage('Max comment length is 1000 characters, Min 1 character')
+]
+
 // Checks comment body for Mongo ID and existence of content under 1000 characters
 // Also checks the post id exists in the DB. Without this, passing in a valid Mongo ID but
 // one that doesn't exist in the DB will result in a comment created belonging to no post
@@ -75,4 +81,4 @@ const validatePostExists = async (req, res, next) => {
     next()
 }
 
-export { validateId, validateCategory, validatePostBody, validateUsernamePassword, validateStrongPassword, validateCommentBody, validatePostExists, validateRequestSchema }
+export { validateId, validateCategory, validatePostBody, validateUsernamePassword, validateStrongPassword, validateCommentBody, validateCommentEdit, validatePostExists, validateRequestSchema }

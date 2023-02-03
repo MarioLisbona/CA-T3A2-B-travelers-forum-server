@@ -70,7 +70,7 @@ const createToken = (member) => {
     const accessToken = jwt.sign({
         id: member._id
     }, process.env.JWT_SECRET, 
-    {expiresIn: '1h'})
+    {expiresIn: '6h'})
     return accessToken
 }
 
