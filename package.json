@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll",
-    "start": "node index.js"
+    "start": "NODE_ENV=production node index.js",
+    "dev": "CHOKIDAR_USEPOLLING=true NODE_ENV=development nodemon index.js",
+    "seed": "NODE_ENV=development node seed.js"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,7 @@
   },
   "devDependencies": {
     "jest": "^29.4.1",
+    "nodemon": "^2.0.20",
     "supertest": "^6.3.3"
   }
 }

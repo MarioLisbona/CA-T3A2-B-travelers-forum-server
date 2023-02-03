@@ -1,25 +1,29 @@
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config({ path: 'config.env' })
 
 mongoose.set('strictQuery', true)
 
-// Disconnect from Atlas database
+// const { API_PORT } = process.env
+const PORT = process.env.API_PORT || 0
+
+// Disconnect from database
 async function dbClose() {
     await mongoose.connection.close()
     console.log("Database disconnected!")
 }
 
-// Connect to Atlas database 
-async function dbConnect () {
+// Connect to database 
+async function dbConnect (databaseURL) {
     try {
-        const connect = await mongoose.connect(process.env.MONGO_URI)
-        console.log(connect.connection.readyState === 1 ? 'Mongoose connected to database' : 'Mongoose failed to connect to database')
+        // const connect = 
+        await mongoose.connect(databaseURL)
+        // console.log(connect.connection.readyState === 1 ? 'Mongoose connected to database' : 'Mongoose failed to connect to database')
     }
     catch (error) {
         console.error(error)
     }
 }
 
-export { dbConnect, dbClose }
+export { dbConnect, dbClose, PORT }
