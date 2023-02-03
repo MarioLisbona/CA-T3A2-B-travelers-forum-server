@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config({ path: 'config.env' })
 
 mongoose.set('strictQuery', true)
 
@@ -17,7 +17,8 @@ async function dbClose() {
 // Connect to database 
 async function dbConnect (databaseURL) {
     try {
-        const connect = await mongoose.connect(databaseURL, { useNewUrlParser: true })
+        // const connect = 
+        await mongoose.connect(databaseURL)
         // console.log(connect.connection.readyState === 1 ? 'Mongoose connected to database' : 'Mongoose failed to connect to database')
     }
     catch (error) {

@@ -7,9 +7,8 @@ import commentRoutes from './routes/comment_routes.js'
 import { dbConnect } from './db.js'
 import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config({ path: 'config.env' })
 
-dbConnect()
 
 const app = express()
 
@@ -24,10 +23,11 @@ app.use(express.json())
 var databaseURL = ""
 switch (process.env.NODE_ENV.toLowerCase()) {
     case "development":
-        databaseURL = `mongodb://localhost:27017/${process.env.npm_package_name}-${process.env.NODE_ENV.toLowerCase()}`
+        databaseURL = process.env.MONGO_URI_DEV
+        // databaseURL = `mongodb://localhost:27017/${process.env.ca-t3a2-b-travelers-forum-server}-${process.env.NODE_ENV.toLowerCase()}`
         break
     case "production":
-        databaseURL = process.env.MONGO_URI
+        databaseURL = process.env.MONGO_URI_PROD
         break
     default:
         console.error("app.js will not connect to the database in the current NODE_ENV.")

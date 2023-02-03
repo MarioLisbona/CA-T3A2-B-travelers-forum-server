@@ -1,5 +1,26 @@
 import app from '../app.js'
 import request from 'supertest'
+import { dbConnect, dbClose } from '../db.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+// establish a connection to the database 
+const DATABASE_URI = process.env.MONGO_URI_TEST || `mongodb://localhost:27017/${process.env.npm_package_name}-${process.env.NODE_ENV.toLowerCase()}`;
+
+
+beforeEach(async () => {
+    await dbConnect(DATABASE_URI)
+    const resRegister = await request(app).post('/auth/register')
+    .send({
+        username: 'Callum1',
+        password: 'Callum123!'
+    })
+})
+
+afterEach(async () => {
+    await dbClose()
+})
 
 describe("Get posts", () => {
 

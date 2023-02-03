@@ -1,12 +1,13 @@
 import app from '../app.js'
 import request from 'supertest'
 import { dbConnect, dbClose } from '../db.js'
+import dotenv from 'dotenv'
 
+dotenv.config()
 
 // establish a connection to the database 
-const DATABASE_URI = process.env.DATABASE_URI || `mongodb://localhost:27017/${process.env.npm_package_name}-${process.env.NODE_ENV.toLowerCase()}`;
+const DATABASE_URI = process.env.MONGO_URI_TEST || `mongodb://localhost:27017/${process.env.npm_package_name}-${process.env.NODE_ENV.toLowerCase()}`;
 
-// set up before-tests and after-tests operations
 beforeEach(async () => {
     await dbConnect(DATABASE_URI)
 })

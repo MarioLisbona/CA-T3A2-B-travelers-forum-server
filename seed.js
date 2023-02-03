@@ -1,9 +1,13 @@
+import mongoose from 'mongoose'
 import { PostModel } from './models/post.js'
 import { CommentModel } from './models/comment.js'
 import { MemberModel } from './models/member.js'
 import { dbConnect, dbClose } from './db.js'
+import dotenv from 'dotenv'
 
-dbConnect()
+dotenv.config()
+
+dbConnect(process.env.MONGO_URI_DEV)
 
 await MemberModel.deleteMany()
 console.log('Deleted all members')
