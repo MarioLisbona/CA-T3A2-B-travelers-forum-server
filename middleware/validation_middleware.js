@@ -92,7 +92,7 @@ const validateHasNotRated = async (req, res, next) => {
     const checkRating = await MemberModel.findById(req.member.id)
     const hasRated = checkRating.has_rated.includes(req.params.id)
     if (hasRated) {
-        return res.status(404).send({ error: 'You have already rated this post' })
+        return res.status(403).send({ error: 'You have already rated this post' })
     }
     next()
 }
