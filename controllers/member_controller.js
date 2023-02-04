@@ -1,13 +1,12 @@
 import { MemberModel } from '../models/member.js'
 
-// Member Routes used for testing purposes
 
 // Retrieve all Members from DB
 const getMembers = async (req, res) => {
     try {
         // Find all members and exclude password field
         const allMembers = await MemberModel
-            .find().select('username joined_date')
+            .find().select('-password')
 
         // Return all members
         return res.status(200).send(allMembers)
@@ -21,7 +20,7 @@ const getMember = async (req, res) => {
     try {
         // Find one Member that matches the id passed as param
         const member = await MemberModel
-        .findById(req.params.id).select('username joined_date')
+        .findById(req.params.id).select('username joined_date has_rated')
         if (member) {
             return res.status(200).send(member)
         } 

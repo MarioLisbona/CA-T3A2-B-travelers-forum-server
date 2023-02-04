@@ -5,9 +5,22 @@ import memberRoutes from './routes/member_routes.js'
 import authRoutes from './routes/auth_routes.js'
 import commentRoutes from './routes/comment_routes.js'
 import { dbConnect } from './db.js'
+import dotenv from 'dotenv'
+import mongoose from 'mongoose'
 
+dotenv.config()
 
-dbConnect()
+if (process.env.NODE_ENV === 'test') {
+    try {
+        await mongoose.connect(process.env.MONGO_URI_TEST)
+    }
+    catch (error) {
+        console.error(error)
+    }
+} else {
+    dbConnect()
+}
+
 
 const app = express()
 

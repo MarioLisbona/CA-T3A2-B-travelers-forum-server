@@ -1,5 +1,6 @@
 import { CommentModel } from "../models/comment.js"
 import { PostModel } from "../models/post.js"
+import { MemberModel } from "../models/member.js"
 
 // Retrieve all Posts
 const getAllPosts = async (req, res) => {
@@ -127,4 +128,22 @@ const deletePost = async (req, res) => {
     }
 }
 
-export { getAllPosts, getPost, getCategory, createPost, updatePost, deletePost }
+const ratePost = async (req, res) => {
+    try {
+        const { userRating } = req.body
+        const post = await PostModel
+        .findByIdAndUpdate(req.params.id, {"$push": {rating: userRating}}, { returnDocument: 'after' })
+        .populate({ path: 'author', select: 'username' })
+        .populate({ path: 'comments', populate: {
+            path: 'author', select: 'username'}}) 
+
+        await MemberModel.findByIdAndUpdate(req.member.id, {"$push": {has_rated: post._id}})
+
+        return res.status(200).send(post)
+    }
+    catch (err) {
+        res.status(500).send({ error: err.message })
+    }
+}
+
+export { getAllPosts, getPost, getCategory, createPost, updatePost, deletePost, ratePost }

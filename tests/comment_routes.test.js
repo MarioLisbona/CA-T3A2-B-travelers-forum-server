@@ -1,5 +1,15 @@
 import app from '../app.js'
 import request from 'supertest'
+import mongoose from 'mongoose'
+
+beforeEach(async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI_TEST)
+    }
+    catch (error) {
+        console.error(error)
+    }
+})
 
 describe("Create comment", () => {
 
