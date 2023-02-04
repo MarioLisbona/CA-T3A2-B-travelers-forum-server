@@ -1,6 +1,5 @@
 import app from '../app.js'
 import request from 'supertest'
-import { dbClose } from '../db.js'
 import mongoose from 'mongoose'
 
 beforeEach(async () => {
