@@ -10,6 +10,7 @@ import mongoose from 'mongoose'
 
 dotenv.config()
 
+// If statement to connect to different DB for testing
 if (process.env.NODE_ENV === 'test') {
     try {
         await mongoose.connect(process.env.MONGO_URI_TEST)
