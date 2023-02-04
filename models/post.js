@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 
+// Options to return virtuals but not return the duplicate 'id' field (still returns '_id')
 const opts = { toJSON: { virtuals: true }, id: false }
 // Create a Mongoose schema to define the structure of a model
 const postSchema = new mongoose.Schema({
@@ -30,10 +31,11 @@ const postSchema = new mongoose.Schema({
         ref: 'Comment',
     }],
     rating: [{
-        type: Number,
+        type: Number
     }]
 }, opts)
 
+// Mongoose virtual to calculate average rating at runtime so the value isn't stored
 postSchema.virtual('calculated_rating').get(function() {
     const sum = this.rating.reduce((a, b) => a + b, 0)
     const avg = Number((sum / this.rating.length).toFixed(1)) || 0

@@ -1,19 +1,19 @@
 import { MemberModel } from '../models/member.js'
 
 
-// Retrieve all Members from DB
-const getMembers = async (req, res) => {
-    try {
-        // Find all members and exclude password field
-        const allMembers = await MemberModel
-            .find().select('-password')
+// // Retrieve all Members from DB
+// const getMembers = async (req, res) => {
+//     try {
+//         // Find all members and exclude password field
+//         const allMembers = await MemberModel
+//             .find().select('-password')
 
-        // Return all members
-        return res.status(200).send(allMembers)
-    } catch (err) {
-        return res.status(500).send({ error: err.message })
-    }
-}
+//         // Return all members
+//         return res.status(200).send(allMembers)
+//     } catch (err) {
+//         return res.status(500).send({ error: err.message })
+//     }
+// }
 
 // Retrieve one Member using id param
 const getMember = async (req, res) => {
@@ -35,4 +35,4 @@ const getMember = async (req, res) => {
     }
 }
 
-export { getMembers, getMember }
+export { getMember }
