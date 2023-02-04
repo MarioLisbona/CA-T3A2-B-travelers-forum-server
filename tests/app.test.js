@@ -1,6 +1,20 @@
 import app from '../app.js'
 import request from 'supertest'
+import { dbClose } from '../db.js'
+import mongoose from 'mongoose'
 
+beforeEach(async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI_TEST)
+    }
+    catch (error) {
+        console.error(error)
+    }
+})
+
+afterEach(async () => {
+    await dbClose()
+})
 
 describe("Database connection", () => {
 
@@ -12,7 +26,6 @@ describe("Database connection", () => {
         expect(res.body.test_response).toBe('Test GET Request successful')
     })
 })
-
 
 
 describe("Integrate login, create post and edit post with logged in user", () => {
