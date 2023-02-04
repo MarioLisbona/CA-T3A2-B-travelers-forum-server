@@ -36,7 +36,7 @@ const postSchema = new mongoose.Schema({
 
 postSchema.virtual('calculated_rating').get(function() {
     const sum = this.rating.reduce((a, b) => a + b, 0)
-    const avg = (sum / this.rating.length) || 0
+    const avg = Number((sum / this.rating.length).toFixed(1)) || 0
     return avg
 })
 
