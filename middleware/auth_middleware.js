@@ -28,7 +28,7 @@ const validateToken = async (req, res, next) => {
         // Call the next middleware
         next()
     } catch (err) {
-        return res.status(400).send({ error: err.message })
+        return res.status(403).send({ error: err.message })
     }
 }
 
