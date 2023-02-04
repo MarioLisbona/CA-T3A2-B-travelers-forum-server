@@ -22,13 +22,10 @@ const registerMember = async (req, res) => {
             username: username,
             password: encryptedPassword
         })
-        // Grant new member JWT token
-        const accessToken = createToken(member)
         // Return member id, username and token
         return res.status(201).send({ 
             id: member.id,
-            username: member.username,
-            token: accessToken
+            username: member.username
         })
     } catch (err) {
         return res.status(500).send({ error: err.message })
