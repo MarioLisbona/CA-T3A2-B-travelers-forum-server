@@ -1,5 +1,6 @@
 import { param, body, validationResult } from 'express-validator'
 import { PostModel } from '../models/post.js'
+import { MemberModel } from '../models/member.js'
 
 // Collects any errors from previous middleware and returns it if it exists
 const validateRequestSchema = function (req, res, next) {
@@ -81,4 +82,19 @@ const validatePostExists = async (req, res, next) => {
     next()
 }
 
-export { validateId, validateCategory, validatePostBody, validateUsernamePassword, validateStrongPassword, validateCommentBody, validateCommentEdit, validatePostExists, validateRequestSchema }
+const validateRatingValue = [
+    body('userRating')
+    .exists().withMessage('userRating is required')
+    .isInt({ min: 1, max: 5}).withMessage('Rating must be a number 1-5')
+]
+
+const validateHasNotRated = async (req, res, next) => {
+    const checkRating = await MemberModel.findById(req.member.id)
+    const hasRated = checkRating.has_rated.includes(req.params.id)
+    if (hasRated) {
+        return res.status(404).send({ error: 'You have already rated this post' })
+    }
+    next()
+}
+
+export { validateId, validateCategory, validatePostBody, validateUsernamePassword, validateStrongPassword, validateCommentBody, validateCommentEdit, validateRatingValue, validateHasNotRated, validatePostExists, validateRequestSchema }

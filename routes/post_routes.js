@@ -1,6 +1,6 @@
 import express from 'express'
 import { getAllPosts, getPost, getCategory, createPost, updatePost, deletePost, ratePost } from '../controllers/post_controller.js'
-import { validateId, validateCategory, validatePostBody, validateRequestSchema } from '../middleware/validation_middleware.js'
+import { validateId, validateCategory, validatePostBody, validateRatingValue, validateHasNotRated, validateRequestSchema } from '../middleware/validation_middleware.js'
 import { validateToken, validateMemberExists, validatePostAuthor } from '../middleware/auth_middleware.js'
 
 const postRoutes = express.Router()
@@ -54,6 +54,11 @@ postRoutes.delete('/:id',
 
 // PUT route to rate a post
 postRoutes.patch('/:id/rating', 
+    validateToken,
+    validateId,
+    validateRatingValue,
+    validateRequestSchema,
+    validateHasNotRated,
     ratePost
     )
 

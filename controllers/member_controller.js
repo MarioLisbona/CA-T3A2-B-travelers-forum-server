@@ -7,7 +7,7 @@ const getMembers = async (req, res) => {
     try {
         // Find all members and exclude password field
         const allMembers = await MemberModel
-            .find().select('username joined_date')
+            .find().select('-password')
 
         // Return all members
         return res.status(200).send(allMembers)
