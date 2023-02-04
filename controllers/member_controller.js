@@ -20,7 +20,7 @@ const getMember = async (req, res) => {
     try {
         // Find one Member that matches the id passed as param
         const member = await MemberModel
-        .findById(req.params.id).select('username joined_date')
+        .findById(req.params.id).select('username joined_date has_rated')
         if (member) {
             return res.status(200).send(member)
         } 
