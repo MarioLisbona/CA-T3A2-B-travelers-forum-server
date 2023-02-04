@@ -56,6 +56,7 @@ const validateStrongPassword = [
         )
 ]
 
+// Checks content and post id in request body are acceptable to create a comment
 const validateCommentBody = [
     body('post')
     .exists().withMessage('Post id required')
@@ -65,6 +66,7 @@ const validateCommentBody = [
     .isLength({ min: 1, max: 1000 }).withMessage('Max comment length is 1000 characters, Min 1 character')
 ]
 
+// Checks content in request body matches criteria for a comment
 const validateCommentEdit = [
     body('content')
     .exists().withMessage('Content is required')
@@ -82,12 +84,15 @@ const validatePostExists = async (req, res, next) => {
     next()
 }
 
+// Validate rating is given in request body and is number value from 1 to 5
 const validateRatingValue = [
     body('userRating')
     .exists().withMessage('userRating is required')
     .isInt({ min: 1, max: 5}).withMessage('Rating must be a number 1-5')
 ]
 
+// Looks up member id from JWT token then checks to see if that member has already rated the post
+// Denies request if member has rated
 const validateHasNotRated = async (req, res, next) => {
     const checkRating = await MemberModel.findById(req.member.id)
     const hasRated = checkRating.has_rated.includes(req.params.id)

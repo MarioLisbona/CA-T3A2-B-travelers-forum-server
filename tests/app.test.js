@@ -12,10 +12,6 @@ beforeEach(async () => {
     }
 })
 
-afterEach(async () => {
-    await dbClose()
-})
-
 describe("Database connection", () => {
 
     test('Get homepage', async () => {
@@ -45,6 +41,7 @@ describe("Integrate login, create post and edit post with logged in user", () =>
             username: 'Callum1',
             password: 'Callum123!'
         })
+
         expect(resLogin.status).toBe(200)
         expect(resLogin.headers['content-type']).toMatch(/json/i)
         expect(resLogin.body).toBeDefined()
@@ -113,6 +110,7 @@ describe("Integrate login, create comment, edit comment and then delete comment 
             username: 'Callum1',
             password: 'Callum123!'
         })
+
         expect(resLogin.status).toBe(200)
         expect(resLogin.headers['content-type']).toMatch(/json/i)
         expect(resLogin.body).toBeDefined()

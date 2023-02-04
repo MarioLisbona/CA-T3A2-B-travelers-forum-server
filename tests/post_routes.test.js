@@ -147,4 +147,20 @@ describe("Create post", () => {
         expect(resPost.body.errors[0].msg).toBe('Content is required')
         expect(resPost.body.errors[0].param).toBe('content')
     })
+
+    test('Error when not authenticated', async () => {
+        const resPost = await request(app).post('/posts/new')
+        .send({
+            title: 'Create a post in North America',
+            category: 'USA',
+            content: 'Content about NA'
+        })
+        .set('authorization', '')
+
+        expect(resPost.status).toBe(403)
+        expect(resPost.headers['content-type']).toMatch(/json/i)
+        expect(resPost.body).toBeDefined()
+        expect(resPost.body.error).toBe('Access denied.')
+    })
+    
 })

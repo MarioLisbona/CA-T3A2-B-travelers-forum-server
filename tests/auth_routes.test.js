@@ -11,7 +11,7 @@ beforeEach(async () => {
     }
 })
 
-describe("Register new Member", () => {
+describe("Login new Member", () => {
 
     const testUsername = 'NewMember123'
     const testPassword = 'NewMember123!'

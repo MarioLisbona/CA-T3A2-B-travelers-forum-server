@@ -128,15 +128,20 @@ const deletePost = async (req, res) => {
     }
 }
 
+// Rate a post 1-5 stars
 const ratePost = async (req, res) => {
     try {
+        // Destructure the users rating form request
         const { userRating } = req.body
+        // Lookup Post passed in params and add the user rating to its 'rating' array
+        // Then return the updated post
         const post = await PostModel
         .findByIdAndUpdate(req.params.id, {"$push": {rating: userRating}}, { returnDocument: 'after' })
         .populate({ path: 'author', select: 'username' })
         .populate({ path: 'comments', populate: {
             path: 'author', select: 'username'}}) 
-
+        // FInd the member by id from JWT token in request and add the post id they rated so 
+        // they cannot rate the post multiple times
         await MemberModel.findByIdAndUpdate(req.member.id, {"$push": {has_rated: post._id}})
 
         return res.status(200).send(post)

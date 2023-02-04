@@ -18,7 +18,7 @@ const memberSchema = new mongoose.Schema({
     },
     has_rated: [{
         type: mongoose.ObjectId, 
-        ref: 'Post', 
+        ref: 'Post',
     }]
   })
 
