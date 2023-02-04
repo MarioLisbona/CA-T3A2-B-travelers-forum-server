@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const opts = { toJSON: { virtuals: true } }
+const opts = { toJSON: { virtuals: true }, id: false }
 // Create a Mongoose schema to define the structure of a model
 const postSchema = new mongoose.Schema({
     title: { 
