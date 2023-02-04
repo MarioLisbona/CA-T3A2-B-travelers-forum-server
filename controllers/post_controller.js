@@ -127,4 +127,20 @@ const deletePost = async (req, res) => {
     }
 }
 
-export { getAllPosts, getPost, getCategory, createPost, updatePost, deletePost }
+const ratePost = async (req, res) => {
+    try {
+        const { userRating } = req.body
+        // const addRating = { userRating }
+        const post = await PostModel
+        .findByIdAndUpdate(req.params.id, {"$push": {rating: userRating}}, { returnDocument: 'after' })
+        .populate({ path: 'author', select: 'username' })
+        .populate({ path: 'comments', populate: {
+            path: 'author', select: 'username'}}) 
+        return res.status(200).send(post)
+    }
+    catch (err) {
+        res.status(500).send({ error: err.message })
+    }
+}
+
+export { getAllPosts, getPost, getCategory, createPost, updatePost, deletePost, ratePost }

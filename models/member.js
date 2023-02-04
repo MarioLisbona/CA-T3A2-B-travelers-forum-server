@@ -15,7 +15,11 @@ const memberSchema = new mongoose.Schema({
         type: Date, 
         default: Date.now,
         required: true 
-    }
+    },
+    has_rated: [{
+        type: mongoose.ObjectId, 
+        ref: 'Member', 
+    }]
   })
 
 // Create a Mongoose model based on the schema to be used by express
