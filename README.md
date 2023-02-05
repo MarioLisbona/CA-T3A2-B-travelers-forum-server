@@ -7,7 +7,7 @@ A MERN Application built by Callum Rowstan and Mario Lisbona
 <br>
 <img src="./docs/icons8-github-30.png" height="20"> [Mario Lisbona](https://github.com/MarioLisbona)
 
-Traveller's Forum is online forum where users can share travel stories and information on their favorite parts of the world. Our goal is to create a sense of community through shared experiences and a love for adventure and exploring new cultures. Guests can read stories from various parts of the world. Guests can register to become members to be able to contribute by posting their own stories, commenting on other member's travel stories and rate each story.
+Traveller's Forum is an online forum where members can share travel stories and information on their favorite parts of the world. Our goal is to create a sense of community among global travellers through shared experiences, adventures and cultures. Guests can browse and view posts to the forum. Guests can also register as a member and contribute to the forum with their own posts. Members can comment on other posts and give them a star rating. 
 
 Traveller's Forum is deployed on Netlify and Railway. It was developed using the MERN stack.
 
@@ -64,13 +64,13 @@ The API can now be accessed using Postman and `localhost:4001/`
   - `npm install --legacy-peer-deps`
 - run the server with the following command:
   - `npm run dev`
-- By dfault the server will run at `http://localhost:5173/`
+- By default the server will run at `http://localhost:5173/`
   - However if this port is already in use another port will be provided
 - You will also be provided a link in the terminal to the port where the client server is running:
 
   ![server port](docs/vite-localhost.png)
 
-You will now be able to view all the posts on the App. To create your own posts, rate posts by others, comment on posts and much more register and login.
+You will now be able to view all the posts on the App. To create your own posts, rate posts by others, comment on posts and register and login.
 
 ## API Endpoints
 
@@ -108,19 +108,19 @@ API Endpoint documentation can be found [here](docs/apiendpoints.md)
 
 ### Client Libraries
 
-`react: ^18.2.0` - React is a Javascript library that provides a declarative, efficient and flexible way to build user interfaces for an application. It allows developer to use multiple small, isolated pieces of code, called 'components' to create complex and interactive UI's.
+`react: ^18.2.0` - React is a Javascript library that provides a declarative, efficient and flexible way to build user interfaces for an application. It allows developers to use multiple small, isolated pieces of code, called 'components' to create complex and interactive UI's.
 
-`react-dom: ^18.2.0` - React-dom is a package that provides a Virtual DOM which is a copy of the actual DOM structure that is used to track changes that are made by the user. Those changes are eventually reflected in the browser's DOM structure. The package provides developed with methods to maniupalte the virual dom, inlcuding `.render()` and `.findDOMNode`
+`react-dom: ^18.2.0` - React-dom is a package that provides a Virtual DOM which is a copy of the actual DOM structure that is used to track changes that are made by the user. Those changes are eventually reflected in the browser's DOM structure. The package provides developers with methods to maniupalte the virual dom, inlcuding `.render()` and `.findDOMNode`
 
 `react-router-dom: ^6.7.0` - React Router is used to create an SPA (Single Page Application). It provides a library that lets developers take advantage of client-side rendering routing. This means that different components can be rendered within the app for each URL without having to fetch a new page each time.
 
 `@fortawesome/fontawesome-svg-core: ^6.2.1`
 
-`fortawesome/free-solid-svg-icons: ^6.2.1`
+`@fortawesome/free-solid-svg-icons: ^6.2.1`
 
 `@fortawesome/react-fontawesome: ^0.2.0`
 
-The font awesome libraries are used to add the icons for the juser registration form. The registration form has front-end input validation and the icons are used to inform the user if they have not entered valid input.
+The Font Awesome libraries are used to add the icons for the user registration form. The registration form has front-end input validation and the icons are used to inform the user if they have not entered a valid input.
 
 `moment: ^2.29.4` -  Moment is used to format the dates on each post when viewed as a full page. It is also used to provide information on the preview cards about how long ago each post was made.
 
@@ -167,9 +167,9 @@ They need to be installed with the flag `--legacy-peer-deps` appended to CLI com
 
 ![Register with valid input](./docs/register-correct-input.png)
 
-**View Post not when not logged in**
+**View Post when not logged in**
 
-![View Post not when not logged in](./docs/view-post-not-logged-in.png)
+![View Post when not logged in](./docs/view-post-not-logged-in.png)
 
 **User logged in with comment box and rate post button disabled**
 
@@ -215,7 +215,7 @@ They need to be installed with the flag `--legacy-peer-deps` appended to CLI com
 
 ## Testing
 
-Extensive testing has been carried out in both Chrome and Firefox running on Windows and MacOS and various devices and screen sizes. Automated testing has been developed using Vitest and Jest. Manual testing was carried out using Postman and running the application locally and via deployment.
+Extensive testing has been carried out in both Chrome and Firefox running on Windows and MacOS and various mobile devices and screen sizes. Automated testing has been developed using Vitest and Jest. Manual testing was carried out using Postman and running the application locally and via deployment.
 
 Manual Testing During Development, Staging and Production: [Click Here](https://docs.google.com/spreadsheets/d/1ZN6NrLZgrfrI0-DRtoB7dR9KK781k1nl1RJyCdUfHI8/edit#gid=0)
 
@@ -225,15 +225,15 @@ Postman Testing: [Click Here](docs/testing-postman.md)
 
 Font-end testing: Automated testing to check that the correct structure and output is present on the PreviewCard component. Automated testing for conditional rendering of the username in the navbar is done in a second test. A third test checks that the links in the footer are displayed and that when they are clicked they route to the correct component. [Click Here](https://github.com/MarioLisbona/CA-T3A2-B-travelers-forum-client/tree/main/tests)
 
-Back-end testing: Automated tests were written to test a variety of controllers, middleware and routes as an integrated process in two common workflows; Member login, post creation, edit and delete and member login, comment creation, edit and delete. Unit tests were also written to cover functionality and validation of various post, comment and auth routes. [Click Here](https://github.com/CallumRowston/CA-T3A2-B-travelers-forum-server/tree/main/tests)
+Back-end testing: Automated tests were written to test a variety of controllers, middleware and routes as an integrated process in two common workflows; *Member login, post creation, edit and delete* and *member login, comment creation, edit and delete.* Unit tests were also written to cover functionality and validation of various post, comment and auth routes. [Click Here](https://github.com/CallumRowston/CA-T3A2-B-travelers-forum-server/tree/main/tests)
 
 ## Project Management & Planning
 
-Our project planning and management centered around an Agile workflow using Trello to organise and delegate tasks. The initial planning and Kanban board set up was undetaken in Part A, which can be found [here](https://github.com/MarioLisbona/CA-T3A2-part-A)
+Our project planning and management centered around an Agile workflow using Trello to organise and delegate tasks. The initial planning and Kanban board set up was undetaken in Part A, which can be found [here](https://github.com/MarioLisbona/CA-T3A2-part-A).
 
-We planned out the requirements to develop the minimum viable product and added these tasks as Trello cards, delegating each card to a group member and assigning it as a server or client requirement. Since we were a group of two, we mainly delegated tasks so that one of us would be responsible for the server and one of us for the client, with the expectation that if tasks were finished early the other member would jump across to help with the remainding tasks.
+We planned out the requirements to develop the minimum viable product and added these tasks as Trello cards, delegating each card to a group member and assigning it as a server or client requirement. Since we were a group of two, we mainly delegated tasks so that one of us would be responsible for the server and one of us for the client, with the expectation that if tasks were finished early the other member would jump across to help with the remaining tasks.
 
-Throughout the second week of development we ensured consistent contact by talking on Discord and providing updates on tasks completed or being worked on which ensured both the server and client were being developed with awareness of one another and allowing for us to collaboratively negotiate development challenges as they arose. It also allowed for quick decision making for smaller aspects of the design that may not have been covered.
+Throughout the second week of development we ensured consistent contact by talking on Discord and providing updates on tasks completed or being worked on. This ensured both the server and client were being developed with awareness of one another and allowed for us to collaboratively negotiate development challenges as they arose. It also allowed for quick decision making for smaller aspects of the design that may not have been covered.
 
 Git and GitHub was utilised for source control. Features were developed in their own branch of each repository and tested before being merged into the main branch for production.
 
@@ -255,7 +255,7 @@ To complete the MVP we added JWT authentication. This came with many hurdles suc
 
 **Sprint 5 - Formal Testing**
 
-Extensive testing was carried out. A separate database was setup for testing as to not make any unnecessary changes to the development or production databases. Testing included writing automated unit and integration tests for both client and server, as well as meticulous manual testing of the application.
+Extensive testing was carried out. A separate database was setup for testing so as to not make any unnecessary changes to the development or production databases. Testing included writing automated unit and integration tests for both client and server, as well as meticulous manual testing of the application.
 
 **Sprint 6 - Rating Feature**
 
@@ -306,5 +306,6 @@ Screenshots of our Trello board were taken in the morning and afternoon of each 
 ![Trello22](docs/trello-screenshots/22.TrelloScreenShot-3-feb-afternoon.png)
 ![Trello23](docs/trello-screenshots/23.TrelloScreenShot-4-feb-morning.png)
 ![Trello24](docs/trello-screenshots/24.TrelloScreenShot-4-feb-afternoon.png)
+![Trello22](./docs/trello-screenshots/25.TrelloScreenShot-5-feb-afternoon.png)
 
 </details>
