@@ -14,7 +14,7 @@ async function dbClose() {
 // Connect to Atlas database 
 async function dbConnect () {
     try {
-        const connect = await mongoose.connect(process.env.MONGO_URI_DEV)
+        const connect = await mongoose.connect(process.env.MONGO_URI)
         console.log(connect.connection.readyState === 1 ? 'Mongoose connected to database' : 'Mongoose failed to connect to database')
     }
     catch (error) {
